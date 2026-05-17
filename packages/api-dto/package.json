@@ -1,0 +1,10 @@
+{
+  "name": "@calls-calendar/api-dto",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "echo \"api-dto build is not configured yet\"",
+    "lint": "echo \"api-dto lint is not configured yet\"",
+    "test": "echo \"api-dto tests are not configured yet\""
+  }
+}
