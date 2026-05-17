@@ -1,0 +1,10 @@
+{
+  "name": "@calls-calendar/backend",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "echo \"backend build is not configured yet\"",
+    "lint": "echo \"backend lint is not configured yet\"",
+    "test": "echo \"backend tests are not configured yet\""
+  }
+}

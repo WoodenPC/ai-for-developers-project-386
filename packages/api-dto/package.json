@@ -1,0 +1,16 @@
+{
+  "name": "@calls-calendar/api-dto",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "echo \"api-dto build is not configured yet\"",
+    "generate:openapi": "tsp compile .",
+    "lint": "echo \"api-dto lint is not configured yet\"",
+    "test": "echo \"api-dto tests are not configured yet\""
+  },
+  "devDependencies": {
+    "@typespec/compiler": "^1.4.0",
+    "@typespec/http": "^1.4.0",
+    "@typespec/openapi3": "^1.4.0"
+  }
+}
