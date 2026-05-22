@@ -1,0 +1,143 @@
+{
+  "OwnerApi_getOwner": {
+    "200": {
+      "id": "owner-main",
+      "name": "Alex Morgan",
+      "email": "alex.morgan@example.com"
+    }
+  },
+  "Public_listEventTypes": {
+    "200": [
+      {
+        "id": "intro-call",
+        "title": "Intro call",
+        "description": "Quick alignment call for new requests and project fit.",
+        "durationMinutes": 30
+      },
+      {
+        "id": "delivery-review",
+        "title": "Delivery review",
+        "description": "A structured review for roadmap, blockers, and next actions.",
+        "durationMinutes": 45
+      },
+      {
+        "id": "technical-session",
+        "title": "Technical session",
+        "description": "Focused time for architecture, API design, or implementation details.",
+        "durationMinutes": 60
+      }
+    ]
+  },
+  "Public_getEventType": {
+    "200": {
+      "id": "intro-call",
+      "title": "Intro call",
+      "description": "Quick alignment call for new requests and project fit.",
+      "durationMinutes": 30
+    },
+    "404": {
+      "code": "event_type_not_found",
+      "message": "Event type was not found."
+    }
+  },
+  "Public_listSlots": {
+    "200": [
+      {
+        "eventTypeId": "intro-call",
+        "startAt": "2026-05-23T10:00:00.000Z",
+        "endAt": "2026-05-23T10:30:00.000Z",
+        "available": true
+      },
+      {
+        "eventTypeId": "intro-call",
+        "startAt": "2026-05-24T11:00:00.000Z",
+        "endAt": "2026-05-24T11:30:00.000Z",
+        "available": true
+      },
+      {
+        "eventTypeId": "intro-call",
+        "startAt": "2026-05-25T12:00:00.000Z",
+        "endAt": "2026-05-25T12:30:00.000Z",
+        "available": false
+      }
+    ],
+    "400": {
+      "code": "invalid_from_date",
+      "message": "fromDate must be a valid calendar date."
+    },
+    "404": {
+      "code": "event_type_not_found",
+      "message": "Event type was not found."
+    }
+  },
+  "Public_createBooking": {
+    "201": {
+      "id": "booking-new",
+      "eventTypeId": "intro-call",
+      "eventTypeTitle": "Intro call",
+      "guestName": "Taylor Kim",
+      "startAt": "2026-05-23T10:00:00.000Z",
+      "endAt": "2026-05-23T10:30:00.000Z",
+      "createdAt": "2026-05-22T12:00:00.000Z"
+    },
+    "400": {
+      "code": "invalid_booking",
+      "message": "Booking request is invalid."
+    },
+    "404": {
+      "code": "slot_not_found",
+      "message": "Requested slot was not found."
+    },
+    "409": {
+      "code": "slot_taken",
+      "message": "Requested slot is already booked."
+    }
+  },
+  "OwnerApi_createEventType": {
+    "201": {
+      "id": "strategy-call",
+      "title": "Strategy call",
+      "description": "Planning session for next steps and delivery risks.",
+      "durationMinutes": 45
+    },
+    "400": {
+      "code": "invalid_event_type",
+      "message": "Event type request is invalid."
+    },
+    "409": {
+      "code": "event_type_exists",
+      "message": "Event type already exists."
+    }
+  },
+  "OwnerApi_listUpcomingBookings": {
+    "200": [
+      {
+        "id": "booking-1",
+        "eventTypeId": "intro-call",
+        "eventTypeTitle": "Intro call",
+        "guestName": "Sam Rivera",
+        "startAt": "2026-05-23T09:00:00.000Z",
+        "endAt": "2026-05-23T09:30:00.000Z",
+        "createdAt": "2026-05-21T16:15:00.000Z"
+      },
+      {
+        "id": "booking-2",
+        "eventTypeId": "delivery-review",
+        "eventTypeTitle": "Delivery review",
+        "guestName": "Jordan Lee",
+        "startAt": "2026-05-24T13:00:00.000Z",
+        "endAt": "2026-05-24T13:45:00.000Z",
+        "createdAt": "2026-05-20T11:10:00.000Z"
+      },
+      {
+        "id": "booking-3",
+        "eventTypeId": "technical-session",
+        "eventTypeTitle": "Technical session",
+        "guestName": "Mina Patel",
+        "startAt": "2026-05-27T15:00:00.000Z",
+        "endAt": "2026-05-27T16:00:00.000Z",
+        "createdAt": "2026-05-19T18:20:00.000Z"
+      }
+    ]
+  }
+}

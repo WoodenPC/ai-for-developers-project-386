@@ -3,8 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "build": "echo \"backend build is not configured yet\"",
+    "build": "pnpm generate:prism",
+    "generate:prism": "pnpm --filter @calls-calendar/api-dto generate:openapi && node ./scripts/build-prism-openapi.mjs",
     "lint": "echo \"backend lint is not configured yet\"",
+    "mock": "pnpm generate:prism && prism mock ./dist/prism/openapi.mock.yaml -h 127.0.0.1 -p 4010",
     "test": "echo \"backend tests are not configured yet\""
+  },
+  "devDependencies": {
+    "@calls-calendar/api-dto": "workspace:^",
+    "@stoplight/prism-cli": "^5.15.10",
+    "yaml": "^2.9.0"
   }
 }

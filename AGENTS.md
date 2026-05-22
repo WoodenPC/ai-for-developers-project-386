@@ -4,10 +4,13 @@
 
 This repository is a pnpm monorepo for the calls calendar project.
 
+## Package Manager
+We use **pnpm** for package management and workspace orchestration.
+
 Workspaces:
 
-- `apps/frontend`: client application.
-- `apps/backend`: server application.
+- `apps/frontend`: client frontend application.
+- `apps/backend`: server backend application.
 - `packages/api-dto`: API contract and shared DTO boundary.
 
 ## Working Rules
