@@ -5,14 +5,14 @@ namespace CallsCalendar;
 @tag("Owner")
 namespace OwnerApi {
   model CreateEventTypeRequest {
-    title: string;
-    description: string;
+    title: CallsCalendar.NonEmptyString;
+    description: CallsCalendar.NonEmptyString;
     durationMinutes: CallsCalendar.PositiveMinutes;
   }
 
   model UpdateEventTypeRequest {
-    title: string;
-    description: string;
+    title: CallsCalendar.NonEmptyString;
+    description: CallsCalendar.NonEmptyString;
     durationMinutes: CallsCalendar.PositiveMinutes;
   }
 

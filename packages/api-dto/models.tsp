@@ -2,20 +2,25 @@ namespace CallsCalendar;
 
 alias Identifier = string;
 alias EventTypeId = int32;
-alias PositiveMinutes = int32;
+
+@minLength(1)
+scalar NonEmptyString extends string;
+
+@minValue(1)
+scalar PositiveMinutes extends int32;
 
 @doc("A single predefined calendar owner profile. The owner is not created, selected, or authenticated through the API.")
 model Owner {
   id: Identifier;
-  name: string;
-  email: string;
+  name: NonEmptyString;
+  email: NonEmptyString;
 }
 
 @doc("A type of meeting that guests can book.")
 model EventType {
   id: EventTypeId;
-  title: string;
-  description: string;
+  title: NonEmptyString;
+  description: NonEmptyString;
   durationMinutes: PositiveMinutes;
 }
 
@@ -33,8 +38,8 @@ model Slot {
 model Booking {
   id: Identifier;
   eventTypeId: EventTypeId;
-  eventTypeTitle: string;
-  guestName: string;
+  eventTypeTitle: NonEmptyString;
+  guestName: NonEmptyString;
   startAt: utcDateTime;
   endAt: utcDateTime;
   createdAt: utcDateTime;
