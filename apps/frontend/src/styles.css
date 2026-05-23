@@ -69,6 +69,64 @@ button {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.ownerLayout {
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.ownerSidebar {
+  background: #ffffff;
+  border-right: 1px solid #d7ded8;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 18px;
+}
+
+.ownerSidebarHeader {
+  padding: 0 8px;
+}
+
+.ownerSidebarNav {
+  display: grid;
+  gap: 8px;
+}
+
+.ownerSidebarLink,
+.ownerSidebarSecondaryLink {
+  border-radius: 8px;
+  color: #17201d;
+  display: block;
+  font-weight: 700;
+  padding: 11px 12px;
+  text-decoration: none;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.ownerSidebarLink:hover,
+.ownerSidebarLink[data-active="true"] {
+  background: #e6f3ef;
+  color: #135d55;
+}
+
+.ownerSidebarSecondaryLink {
+  color: #5f6d68;
+  font-weight: 600;
+  margin-top: auto;
+}
+
+.ownerSidebarSecondaryLink:hover {
+  background: #f3f6f4;
+  color: #17201d;
+}
+
+.ownerContent {
+  min-width: 0;
+}
+
 .bookingsPanel {
   grid-column: 1 / -1;
 }
@@ -134,5 +192,19 @@ button {
   .guestGrid,
   .ownerGrid {
     grid-template-columns: 1fr;
+  }
+
+  .ownerLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .ownerSidebar {
+    border-bottom: 1px solid #d7ded8;
+    border-right: 0;
+    gap: 16px;
+  }
+
+  .ownerSidebarSecondaryLink {
+    margin-top: 0;
   }
 }

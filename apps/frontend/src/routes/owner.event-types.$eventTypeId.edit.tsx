@@ -1,4 +1,19 @@
-import { Alert, Badge, Box, Button, Container, Divider, Group, Loader, Paper, Stack, Text, Title } from "@mantine/core";
+import {
+  ActionIcon,
+  Alert,
+  Anchor,
+  Badge,
+  Box,
+  Breadcrumbs,
+  Container,
+  Divider,
+  Group,
+  Loader,
+  Paper,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -44,69 +59,84 @@ function OwnerEventTypeEditPage() {
   );
 
   return (
-    <main className="appShell">
-      <Container size="md" py="xl">
-        <Stack gap="lg">
-          <Paper className="topBar" withBorder>
-            <Group justify="space-between" gap="md">
-              <Box>
+    <Container size="md" py="xl">
+      <Stack gap="lg">
+        <Paper className="topBar" withBorder>
+          <Stack gap="md">
+            <Group gap="sm">
+              <ActionIcon
+                aria-label="Back to event types"
+                component={Link}
+                radius="sm"
+                size="lg"
+                to="/owner/event-types"
+                variant="subtle"
+              >
+                &larr;
+              </ActionIcon>
+              <Breadcrumbs separator="/">
+                <Anchor component={Link} size="sm" to="/owner/event-types">
+                  Event types
+                </Anchor>
                 <Text c="dimmed" size="sm">
-                  Owner workspace
+                  Edit
                 </Text>
-                <Title order={1}>Edit event</Title>
-                {isValidEventTypeId ? (
-                  <Badge color="gray" mt="xs" variant="light">
-                    #{numericEventTypeId}
-                  </Badge>
-                ) : null}
-              </Box>
-              <Button component={Link} radius="sm" to="/owner/event-types" variant="subtle">
-                Back to events
-              </Button>
+              </Breadcrumbs>
             </Group>
-          </Paper>
+            <Box>
+              <Text c="dimmed" size="sm">
+                Owner workspace
+              </Text>
+              <Title order={1}>Edit event</Title>
+              {isValidEventTypeId ? (
+                <Badge color="gray" mt="xs" variant="light">
+                  #{numericEventTypeId}
+                </Badge>
+              ) : null}
+            </Box>
+          </Stack>
+        </Paper>
 
-          <Paper className="panel" withBorder>
-            {!isValidEventTypeId ? (
-              <Alert color="red" radius="sm" variant="light">
-                Event id must be a positive number.
-              </Alert>
-            ) : eventTypeQuery.isLoading ? (
-              <Loader color="teal" size="sm" />
-            ) : eventTypeQuery.isError ? (
-              <Alert color="red" radius="sm" variant="light">
-                Event type was not found.
-              </Alert>
-            ) : (
-              <>
-                <Group align="flex-start" justify="space-between">
-                  <Box>
-                    <Title order={2}>{eventTypeQuery.data?.title}</Title>
-                    <Text c="dimmed" size="sm">
-                      Update the public booking details for this event.
-                    </Text>
-                  </Box>
-                  <Badge color="teal" variant="light">
-                    {eventTypeQuery.data?.durationMinutes} min
-                  </Badge>
-                </Group>
-                <Divider my="md" />
-                {updateEventTypeMutation.isError ? (
-                  <Alert color="red" mb="md" radius="sm" variant="light">
-                    Failed to update event type.
-                  </Alert>
-                ) : null}
-                <EventTypeForm
-                  defaultValues={eventTypeFormDefaults}
-                  isSubmitting={updateEventTypeMutation.isPending}
-                  onSubmit={(values) => updateEventTypeMutation.mutate(values)}
-                  submitLabel="Save changes"
-                />
-              </>
-            )}
-          </Paper>
-        </Stack>
-      </Container>
-    </main>
+        <Paper className="panel" withBorder>
+          {!isValidEventTypeId ? (
+            <Alert color="red" radius="sm" variant="light">
+              Event id must be a positive number.
+            </Alert>
+          ) : eventTypeQuery.isLoading ? (
+            <Loader color="teal" size="sm" />
+          ) : eventTypeQuery.isError ? (
+            <Alert color="red" radius="sm" variant="light">
+              Event type was not found.
+            </Alert>
+          ) : (
+            <>
+              <Group align="flex-start" justify="space-between">
+                <Box>
+                  <Title order={2}>{eventTypeQuery.data?.title}</Title>
+                  <Text c="dimmed" size="sm">
+                    Update the public booking details for this event.
+                  </Text>
+                </Box>
+                <Badge color="teal" variant="light">
+                  {eventTypeQuery.data?.durationMinutes} min
+                </Badge>
+              </Group>
+              <Divider my="md" />
+              {updateEventTypeMutation.isError ? (
+                <Alert color="red" mb="md" radius="sm" variant="light">
+                  Failed to update event type.
+                </Alert>
+              ) : null}
+              <EventTypeForm
+                defaultValues={eventTypeFormDefaults}
+                isSubmitting={updateEventTypeMutation.isPending}
+                onSubmit={(values) => updateEventTypeMutation.mutate(values)}
+                submitLabel="Save changes"
+              />
+            </>
+          )}
+        </Paper>
+      </Stack>
+    </Container>
   );
 }
