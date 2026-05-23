@@ -3,8 +3,32 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "build": "echo \"frontend build is not configured yet\"",
+    "build": "vite build",
+    "dev": "vite --host 127.0.0.1",
     "lint": "echo \"frontend lint is not configured yet\"",
-    "test": "echo \"frontend tests are not configured yet\""
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@calls-calendar/api-dto": "workspace:^",
+    "@hookform/resolvers": "^5.4.0",
+    "@mantine/core": "^9.2.1",
+    "@mantine/dates": "9.2.1",
+    "@mantine/hooks": "^9.2.1",
+    "@tanstack/react-query": "^5.100.11",
+    "@tanstack/react-router": "^1.170.7",
+    "dayjs": "^1.11.20",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-hook-form": "^7.76.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tanstack/router-plugin": "^1.168.10",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.14"
   }
 }

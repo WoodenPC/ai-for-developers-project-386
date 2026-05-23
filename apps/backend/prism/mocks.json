@@ -1,0 +1,229 @@
+{
+  "OwnerApi_getOwner": {
+    "200": {
+      "id": "owner-main",
+      "name": "Alex Morgan",
+      "email": "alex.morgan@example.com"
+    }
+  },
+  "Public_listEventTypes": {
+    "200": [
+      {
+        "id": 1,
+        "title": "Intro call",
+        "description": "Quick alignment call for new requests and project fit.",
+        "durationMinutes": 30
+      },
+      {
+        "id": 2,
+        "title": "Delivery review",
+        "description": "A structured review for roadmap, blockers, and next actions.",
+        "durationMinutes": 45
+      },
+      {
+        "id": 3,
+        "title": "Technical session",
+        "description": "Focused time for architecture, API design, or implementation details.",
+        "durationMinutes": 60
+      }
+    ]
+  },
+  "Public_getEventType": {
+    "200": {
+      "id": 1,
+      "title": "Intro call",
+      "description": "Quick alignment call for new requests and project fit.",
+      "durationMinutes": 30
+    },
+    "404": {
+      "code": "event_type_not_found",
+      "message": "Event type was not found."
+    }
+  },
+  "Public_listSlots": {
+    "200": [
+      {
+        "eventTypeId": 1,
+        "startAt": "2026-05-23T06:00:00.000Z",
+        "endAt": "2026-05-23T06:30:00.000Z",
+        "available": true
+      },
+      {
+        "eventTypeId": 1,
+        "startAt": "2026-05-23T06:30:00.000Z",
+        "endAt": "2026-05-23T07:00:00.000Z",
+        "available": true
+      },
+      {
+        "eventTypeId": 1,
+        "startAt": "2026-05-23T07:00:00.000Z",
+        "endAt": "2026-05-23T07:30:00.000Z",
+        "available": false
+      },
+      {
+        "eventTypeId": 1,
+        "startAt": "2026-05-23T07:30:00.000Z",
+        "endAt": "2026-05-23T08:00:00.000Z",
+        "available": true
+      },
+      {
+        "eventTypeId": 1,
+        "startAt": "2026-05-23T08:00:00.000Z",
+        "endAt": "2026-05-23T08:30:00.000Z",
+        "available": true
+      },
+      {
+        "eventTypeId": 1,
+        "startAt": "2026-05-23T13:30:00.000Z",
+        "endAt": "2026-05-23T14:00:00.000Z",
+        "available": true
+      },
+      {
+        "eventTypeId": 1,
+        "startAt": "2026-05-24T06:00:00.000Z",
+        "endAt": "2026-05-24T06:30:00.000Z",
+        "available": true
+      },
+      {
+        "eventTypeId": 1,
+        "startAt": "2026-05-24T06:30:00.000Z",
+        "endAt": "2026-05-24T07:00:00.000Z",
+        "available": true
+      },
+      {
+        "eventTypeId": 1,
+        "startAt": "2026-05-24T13:30:00.000Z",
+        "endAt": "2026-05-24T14:00:00.000Z",
+        "available": false
+      }
+    ],
+    "400": {
+      "code": "invalid_from_date",
+      "message": "fromDate must be a valid calendar date."
+    },
+    "404": {
+      "code": "event_type_not_found",
+      "message": "Event type was not found."
+    }
+  },
+  "Public_createBooking": {
+    "201": {
+      "id": "booking-new",
+      "eventTypeId": 1,
+      "eventTypeTitle": "Intro call",
+      "guestName": "Taylor Kim",
+      "startAt": "2026-05-23T06:00:00.000Z",
+      "endAt": "2026-05-23T06:30:00.000Z",
+      "createdAt": "2026-05-22T12:00:00.000Z"
+    },
+    "400": {
+      "code": "invalid_booking",
+      "message": "Booking request is invalid."
+    },
+    "404": {
+      "code": "slot_not_found",
+      "message": "Requested slot was not found."
+    },
+    "409": {
+      "code": "slot_taken",
+      "message": "Requested slot is already booked."
+    }
+  },
+  "OwnerApi_listEventTypes": {
+    "200": [
+      {
+        "id": 1,
+        "title": "Intro call",
+        "description": "Quick alignment call for new requests and project fit.",
+        "durationMinutes": 30
+      },
+      {
+        "id": 2,
+        "title": "Delivery review",
+        "description": "A structured review for roadmap, blockers, and next actions.",
+        "durationMinutes": 45
+      },
+      {
+        "id": 3,
+        "title": "Technical session",
+        "description": "Focused time for architecture, API design, or implementation details.",
+        "durationMinutes": 60
+      }
+    ]
+  },
+  "OwnerApi_getEventType": {
+    "200": {
+      "id": 1,
+      "title": "Intro call",
+      "description": "Quick alignment call for new requests and project fit.",
+      "durationMinutes": 30
+    },
+    "404": {
+      "code": "event_type_not_found",
+      "message": "Event type was not found."
+    }
+  },
+  "OwnerApi_createEventType": {
+    "201": {
+      "id": 4,
+      "title": "Strategy call",
+      "description": "Planning session for next steps and delivery risks.",
+      "durationMinutes": 45
+    },
+    "400": {
+      "code": "invalid_event_type",
+      "message": "Event type request is invalid."
+    },
+    "409": {
+      "code": "event_type_exists",
+      "message": "Event type already exists."
+    }
+  },
+  "OwnerApi_updateEventType": {
+    "200": {
+      "id": 1,
+      "title": "Intro call",
+      "description": "Quick alignment call for new requests and project fit.",
+      "durationMinutes": 30
+    },
+    "400": {
+      "code": "invalid_event_type",
+      "message": "Event type request is invalid."
+    },
+    "404": {
+      "code": "event_type_not_found",
+      "message": "Event type was not found."
+    }
+  },
+  "OwnerApi_listUpcomingBookings": {
+    "200": [
+      {
+        "id": "booking-1",
+        "eventTypeId": 1,
+        "eventTypeTitle": "Intro call",
+        "guestName": "Sam Rivera",
+        "startAt": "2026-05-23T09:00:00.000Z",
+        "endAt": "2026-05-23T09:30:00.000Z",
+        "createdAt": "2026-05-21T16:15:00.000Z"
+      },
+      {
+        "id": "booking-2",
+        "eventTypeId": 2,
+        "eventTypeTitle": "Delivery review",
+        "guestName": "Jordan Lee",
+        "startAt": "2026-05-24T13:00:00.000Z",
+        "endAt": "2026-05-24T13:45:00.000Z",
+        "createdAt": "2026-05-20T11:10:00.000Z"
+      },
+      {
+        "id": "booking-3",
+        "eventTypeId": 3,
+        "eventTypeTitle": "Technical session",
+        "guestName": "Mina Patel",
+        "startAt": "2026-05-27T15:00:00.000Z",
+        "endAt": "2026-05-27T16:00:00.000Z",
+        "createdAt": "2026-05-19T18:20:00.000Z"
+      }
+    ]
+  }
+}

@@ -9,5 +9,7 @@ This workspace contains the server application for the calls calendar.
 - Public API behavior must match the contract owned by `api-dto`.
 - Do not expose new request or response shapes without updating `api-dto` first.
 - Do not select a backend framework, database, ORM, queue, or auth stack until that decision is explicitly made.
+- Use Prism as the backend API emulator for frontend development and contract checks.
+- Keep Prism mock fixtures inside this backend workspace, not in `api-dto`.
 - Keep server code, domain logic, persistence, and backend tests inside this workspace.
 - Do not add dependencies until package choices are explicitly approved.
