@@ -1,50 +1,11 @@
-import {
-  Badge,
-  Box,
-  Button,
-  Container,
-  Group,
-  Loader,
-  Paper,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
+import { Box, Button, Container, Group, Loader, Paper, Stack, Text, Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
-import type { EventType } from "@calls-calendar/api-dto/generated";
 
-import { calendarClient } from "./api/calendarClient";
-import { calendarQueryKeys } from "./api/queryKeys";
+import { calendarClient } from "../../api/calendarClient";
+import { calendarQueryKeys } from "../../api/queryKeys";
+import { EventTypeList } from "./EventTypeList";
 
-function EventTypeList({ eventTypes }: { eventTypes: EventType[] }) {
-  return (
-    <Stack gap="sm">
-      {eventTypes.map((eventType) => (
-        <Link
-          className="eventTypeButton"
-          key={eventType.id}
-          params={{ eventTypeId: String(eventType.id) }}
-          to="/event-types/$eventTypeId"
-        >
-          <Group justify="space-between" wrap="nowrap">
-            <Box>
-              <Text fw={700}>{eventType.title}</Text>
-              <Text c="dimmed" size="sm">
-                {eventType.description}
-              </Text>
-            </Box>
-            <Badge color="teal" variant="light">
-              {eventType.durationMinutes} min
-            </Badge>
-          </Group>
-        </Link>
-      ))}
-    </Stack>
-  );
-}
-
-export function App() {
+export function GuestEventsPage() {
   const ownerQuery = useQuery({ queryFn: calendarClient.getOwner, queryKey: calendarQueryKeys.owner });
   const eventTypesQuery = useQuery({
     queryFn: calendarClient.listEventTypes,
@@ -74,12 +35,7 @@ export function App() {
                 <Title order={1}>{ownerQuery.data?.name}</Title>
                 <Text c="dimmed">{ownerQuery.data?.email}</Text>
               </Box>
-              <Button
-                component="a"
-                href="/owner/event-types"
-                radius="sm"
-                variant="light"
-              >
+              <Button component="a" href="/owner/event-types" radius="sm" variant="light">
                 Owner events
               </Button>
             </Group>
