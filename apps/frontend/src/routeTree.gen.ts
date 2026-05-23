@@ -13,6 +13,7 @@ import { Route as OwnerRouteImport } from './routes/owner'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OwnerEventTypesRouteImport } from './routes/owner.event-types'
 import { Route as OwnerBookingsRouteImport } from './routes/owner.bookings'
+import { Route as EventTypesEventTypeIdRouteImport } from './routes/event-types.$eventTypeId'
 import { Route as OwnerEventTypesIndexRouteImport } from './routes/owner.event-types.index'
 import { Route as OwnerEventTypesEventTypeIdEditRouteImport } from './routes/owner.event-types.$eventTypeId.edit'
 
@@ -36,6 +37,11 @@ const OwnerBookingsRoute = OwnerBookingsRouteImport.update({
   path: '/bookings',
   getParentRoute: () => OwnerRoute,
 } as any)
+const EventTypesEventTypeIdRoute = EventTypesEventTypeIdRouteImport.update({
+  id: '/event-types/$eventTypeId',
+  path: '/event-types/$eventTypeId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OwnerEventTypesIndexRoute = OwnerEventTypesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -51,6 +57,7 @@ const OwnerEventTypesEventTypeIdEditRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/owner': typeof OwnerRouteWithChildren
+  '/event-types/$eventTypeId': typeof EventTypesEventTypeIdRoute
   '/owner/bookings': typeof OwnerBookingsRoute
   '/owner/event-types': typeof OwnerEventTypesRouteWithChildren
   '/owner/event-types/': typeof OwnerEventTypesIndexRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/owner': typeof OwnerRouteWithChildren
+  '/event-types/$eventTypeId': typeof EventTypesEventTypeIdRoute
   '/owner/bookings': typeof OwnerBookingsRoute
   '/owner/event-types': typeof OwnerEventTypesIndexRoute
   '/owner/event-types/$eventTypeId/edit': typeof OwnerEventTypesEventTypeIdEditRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/owner': typeof OwnerRouteWithChildren
+  '/event-types/$eventTypeId': typeof EventTypesEventTypeIdRoute
   '/owner/bookings': typeof OwnerBookingsRoute
   '/owner/event-types': typeof OwnerEventTypesRouteWithChildren
   '/owner/event-types/': typeof OwnerEventTypesIndexRoute
@@ -77,6 +86,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/owner'
+    | '/event-types/$eventTypeId'
     | '/owner/bookings'
     | '/owner/event-types'
     | '/owner/event-types/'
@@ -85,6 +95,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/owner'
+    | '/event-types/$eventTypeId'
     | '/owner/bookings'
     | '/owner/event-types'
     | '/owner/event-types/$eventTypeId/edit'
@@ -92,6 +103,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/owner'
+    | '/event-types/$eventTypeId'
     | '/owner/bookings'
     | '/owner/event-types'
     | '/owner/event-types/'
@@ -101,6 +113,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   OwnerRoute: typeof OwnerRouteWithChildren
+  EventTypesEventTypeIdRoute: typeof EventTypesEventTypeIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -132,6 +145,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/owner/bookings'
       preLoaderRoute: typeof OwnerBookingsRouteImport
       parentRoute: typeof OwnerRoute
+    }
+    '/event-types/$eventTypeId': {
+      id: '/event-types/$eventTypeId'
+      path: '/event-types/$eventTypeId'
+      fullPath: '/event-types/$eventTypeId'
+      preLoaderRoute: typeof EventTypesEventTypeIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/owner/event-types/': {
       id: '/owner/event-types/'
@@ -179,6 +199,7 @@ const OwnerRouteWithChildren = OwnerRoute._addFileChildren(OwnerRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   OwnerRoute: OwnerRouteWithChildren,
+  EventTypesEventTypeIdRoute: EventTypesEventTypeIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

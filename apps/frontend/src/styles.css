@@ -63,6 +63,19 @@ button {
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
 }
 
+.bookingGrid {
+  align-items: start;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(220px, 3fr) minmax(360px, 5fr) minmax(220px, 3fr);
+}
+
+.bookingSidePanel,
+.bookingCalendarPanel,
+.bookingTimePanel {
+  min-width: 0;
+}
+
 .ownerGrid {
   display: grid;
   gap: 24px;
@@ -137,8 +150,10 @@ button {
   border-radius: 8px;
   color: inherit;
   cursor: pointer;
+  display: block;
   padding: 16px;
   text-align: left;
+  text-decoration: none;
   transition:
     border-color 140ms ease,
     box-shadow 140ms ease,
@@ -151,6 +166,13 @@ button {
   border-color: #1d7f73;
   box-shadow: 0 10px 26px rgba(29, 127, 115, 0.12);
   transform: translateY(-1px);
+}
+
+.timeSlotButton {
+  height: auto;
+  min-height: 52px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .slotRow,
@@ -190,6 +212,7 @@ button {
 
 @media (max-width: 860px) {
   .guestGrid,
+  .bookingGrid,
   .ownerGrid {
     grid-template-columns: 1fr;
   }

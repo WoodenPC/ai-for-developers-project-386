@@ -4,6 +4,7 @@ import type {
   Owner,
   OwnerApiCreateEventTypeRequest,
   OwnerApiUpdateEventTypeRequest,
+  PublicCreateBookingRequest,
   Slot,
 } from "@calls-calendar/api-dto/generated";
 
@@ -12,6 +13,17 @@ const usesDefaultMockApi = apiBaseUrl === "/api";
 let ownerEventTypesCache: EventType[] | undefined;
 
 const today = () => new Date().toISOString().slice(0, 10);
+
+export class CalendarApiError extends Error {
+  constructor(
+    message: string,
+    public readonly status: number,
+    public readonly data: unknown,
+  ) {
+    super(message);
+    this.name = "CalendarApiError";
+  }
+}
 
 function nextMockEventTypeId(eventTypes: EventType[]) {
   return Math.max(0, ...eventTypes.map((eventType) => eventType.id)) + Math.floor(Math.random() * 1000) + 1;
@@ -27,7 +39,13 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   });
 
   if (!response.ok) {
-    throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+    const data = await response.json().catch(() => undefined);
+    const message =
+      data && typeof data === "object" && "message" in data && typeof data.message === "string"
+        ? data.message
+        : `API request failed: ${response.status} ${response.statusText}`;
+
+    throw new CalendarApiError(message, response.status, data);
   }
 
   return response.json() as Promise<T>;
@@ -40,9 +58,18 @@ export const calendarClient = {
   async listEventTypes(): Promise<EventType[]> {
     return request<EventType[]>("/event-types");
   },
-  async listSlots(eventTypeId: number): Promise<Slot[]> {
-    const query = new URLSearchParams({ fromDate: today() });
+  async getEventType(eventTypeId: number): Promise<EventType> {
+    return request<EventType>(`/event-types/${encodeURIComponent(String(eventTypeId))}`);
+  },
+  async listSlots(eventTypeId: number, fromDate = today()): Promise<Slot[]> {
+    const query = new URLSearchParams({ fromDate });
     return request<Slot[]>(`/event-types/${encodeURIComponent(String(eventTypeId))}/slots?${query.toString()}`);
+  },
+  async createBooking(body: PublicCreateBookingRequest): Promise<Booking> {
+    return request<Booking>("/bookings", {
+      body: JSON.stringify(body),
+      method: "POST",
+    });
   },
   async listAllSlots(): Promise<Slot[]> {
     const eventTypes = await this.listEventTypes();
