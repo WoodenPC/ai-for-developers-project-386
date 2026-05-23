@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { GuestBookingPage } from "../components/guest-booking/GuestBookingPage";
+import { GuestBookingPage } from "../components/guest-booking/guest-booking-page";
 
 export const Route = createFileRoute("/event-types/$eventTypeId")({
   component: BookingRoute,

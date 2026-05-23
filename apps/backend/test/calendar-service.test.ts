@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ApiError } from "../src/errors.js";
 import { createTestRepository, createTestService, fixedNow } from "./helpers.js";
-import { CalendarService } from "../src/services/calendarService.js";
+import { CalendarService } from "../src/services/calendar-service.js";
 import type { Booking } from "../src/types.js";
 
 describe("CalendarService event types", () => {

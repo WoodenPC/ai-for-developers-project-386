@@ -1,9 +1,9 @@
 import type { FastifyInstance } from "fastify";
 import { ownerBookingsRoutes } from "./owner/bookings.js";
-import { ownerEventTypesRoutes } from "./owner/eventTypes.js";
+import { ownerEventTypesRoutes } from "./owner/event-types.js";
 import { ownerProfileRoutes } from "./owner/profile.js";
 import { publicBookingsRoutes } from "./public/bookings.js";
-import { publicEventTypesRoutes } from "./public/eventTypes.js";
+import { publicEventTypesRoutes } from "./public/event-types.js";
 
 export function registerRoutes(app: FastifyInstance) {
   app.register(ownerProfileRoutes);

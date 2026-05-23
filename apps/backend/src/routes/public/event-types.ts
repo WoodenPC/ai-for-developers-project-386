@@ -1,7 +1,7 @@
 import type { PublicCreateBookingRequest } from "../../types.js";
 import { contractSchemas } from "../../generated/contractSchemas.js";
 import { parseEventTypeId } from "../params.js";
-import type { RoutePlugin } from "../routeTypes.js";
+import type { RoutePlugin } from "../route-types.js";
 
 export const publicEventTypesRoutes: RoutePlugin = async (app) => {
   app.get("/event-types", { schema: contractSchemas.Public_listEventTypes }, async () =>

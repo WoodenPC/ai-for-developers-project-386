@@ -1,5 +1,5 @@
 import { ApiError } from "../errors.js";
-import type { CalendarRepository } from "../repositories/calendarRepository.js";
+import type { CalendarRepository } from "../repositories/calendar-repository.js";
 import type {
   Booking,
   EventType,
@@ -9,7 +9,7 @@ import type {
   PublicCreateBookingRequest,
   Slot,
 } from "../types.js";
-import { addDays, addMinutesIso, isValidDateTime, moscowLocalDateTimeToIso, parseDateOnly } from "./dateUtils.js";
+import { addDays, addMinutesIso, isValidDateTime, moscowLocalDateTimeToIso, parseDateOnly } from "./date-utils.js";
 
 type Clock = () => Date;
 

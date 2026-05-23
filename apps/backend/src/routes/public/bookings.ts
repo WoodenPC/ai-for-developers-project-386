@@ -1,6 +1,6 @@
 import { contractSchemas } from "../../generated/contractSchemas.js";
 import type { PublicCreateBookingRequest } from "../../types.js";
-import type { RoutePlugin } from "../routeTypes.js";
+import type { RoutePlugin } from "../route-types.js";
 
 export const publicBookingsRoutes: RoutePlugin = async (app) => {
   app.post<{ Body: PublicCreateBookingRequest }>(

@@ -1,7 +1,7 @@
 import { contractSchemas } from "../../generated/contractSchemas.js";
 import type { OwnerApiCreateEventTypeRequest, OwnerApiUpdateEventTypeRequest } from "../../types.js";
 import { parseEventTypeId } from "../params.js";
-import type { RoutePlugin } from "../routeTypes.js";
+import type { RoutePlugin } from "../route-types.js";
 
 export const ownerEventTypesRoutes: RoutePlugin = async (app) => {
   app.get("/owner/event-types", { schema: contractSchemas.OwnerApi_listEventTypes }, async () =>

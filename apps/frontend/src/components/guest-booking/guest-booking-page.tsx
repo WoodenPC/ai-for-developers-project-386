@@ -22,11 +22,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { CalendarApiError, calendarClient } from "../../api/calendarClient";
-import { calendarQueryKeys } from "../../api/queryKeys";
-import { SlotSkeletonList } from "./SlotSkeletonList";
-import { formatDate, formatTime, normalizeDateValue, toDateString, todayDateString } from "./dateUtils";
-import { isPastSlot } from "./slotUtils";
+import { CalendarApiError, calendarClient } from "../../api/calendar-client";
+import { calendarQueryKeys } from "../../api/query-keys";
+import { SlotSkeletonList } from "./slot-skeleton-list";
+import { formatDate, formatTime, normalizeDateValue, toDateString, todayDateString } from "./date-utils";
+import { isPastSlot } from "./slot-utils";
 
 const bookingFormSchema = z.object({
   guestName: z.string().trim().min(1, "Name is required."),

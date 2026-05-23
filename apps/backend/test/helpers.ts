@@ -1,6 +1,6 @@
-import { InMemoryCalendarRepository } from "../src/repositories/calendarRepository.js";
-import { seedEventTypes, seedOwner } from "../src/repositories/seedData.js";
-import { CalendarService } from "../src/services/calendarService.js";
+import { InMemoryCalendarRepository } from "../src/repositories/calendar-repository.js";
+import { seedEventTypes, seedOwner } from "../src/repositories/seed-data.js";
+import { CalendarService } from "../src/services/calendar-service.js";
 import type { Booking } from "../src/types.js";
 
 export const fixedNow = new Date("2026-05-22T00:00:00.000Z");

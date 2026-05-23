@@ -18,9 +18,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useMemo } from "react";
 
-import { calendarClient } from "../../api/calendarClient";
-import { calendarQueryKeys } from "../../api/queryKeys";
-import { EventTypeForm, emptyEventTypeFormValues, type EventTypeFormValues } from "../EventTypeForm";
+import { calendarClient } from "../../api/calendar-client";
+import { calendarQueryKeys } from "../../api/query-keys";
+import { EventTypeForm, emptyEventTypeFormValues, type EventTypeFormValues } from "../event-type-form";
 
 export function OwnerEventTypeEditPage({
   eventTypeId,

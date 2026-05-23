@@ -1,9 +1,9 @@
 import { Box, Button, Container, Group, Loader, Paper, Stack, Text, Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 
-import { calendarClient } from "../../api/calendarClient";
-import { calendarQueryKeys } from "../../api/queryKeys";
-import { EventTypeList } from "./EventTypeList";
+import { calendarClient } from "../../api/calendar-client";
+import { calendarQueryKeys } from "../../api/query-keys";
+import { EventTypeList } from "./event-type-list";
 
 export function GuestEventsPage() {
   const ownerQuery = useQuery({ queryFn: calendarClient.getOwner, queryKey: calendarQueryKeys.owner });

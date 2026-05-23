@@ -24,10 +24,10 @@ describe("generated contract schemas", () => {
   it("keeps route validation wired to generated contract schemas", async () => {
     const routeFiles = [
       "src/routes/owner/bookings.ts",
-      "src/routes/owner/eventTypes.ts",
+      "src/routes/owner/event-types.ts",
       "src/routes/owner/profile.ts",
       "src/routes/public/bookings.ts",
-      "src/routes/public/eventTypes.ts",
+      "src/routes/public/event-types.ts",
     ];
     const routeSources = await Promise.all(
       routeFiles.map((filePath) => readFile(path.join(process.cwd(), filePath), "utf8")),
