@@ -20,6 +20,7 @@ import { useMemo } from "react";
 
 import { EventTypeForm, emptyEventTypeFormValues, type EventTypeFormValues } from "../components/EventTypeForm";
 import { calendarClient } from "../api/calendarClient";
+import { calendarQueryKeys } from "../api/queryKeys";
 
 export const Route = createFileRoute("/owner/event-types/$eventTypeId/edit")({
   component: OwnerEventTypeEditPage,
@@ -35,13 +36,13 @@ function OwnerEventTypeEditPage() {
   const eventTypeQuery = useQuery({
     enabled: isValidEventTypeId,
     queryFn: () => calendarClient.getOwnerEventType(numericEventTypeId),
-    queryKey: ["owner", "eventTypes", numericEventTypeId],
+    queryKey: calendarQueryKeys.ownerEventType(numericEventTypeId),
   });
 
   const updateEventTypeMutation = useMutation({
     mutationFn: (values: EventTypeFormValues) => calendarClient.updateOwnerEventType(numericEventTypeId, values),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["owner", "eventTypes"] });
+      await queryClient.invalidateQueries({ queryKey: calendarQueryKeys.ownerEventTypes });
       await navigate({ to: "/owner/event-types" });
     },
   });

@@ -13,6 +13,7 @@ This workspace contains the client application for the calls calendar.
 - Use zod for frontend form schemas and validation, and react-hook-form for form state and submission.
 - Use TanStack Router for routing.
 - Routing must be file-based.
+- Keep TanStack Query keys centralized in a frontend API query key module; do not declare query key arrays inline in components or routes.
 - Do not duplicate API DTO types in this workspace; import generated API types from `@calls-calendar/api-dto/generated`.
 - Use the backend Prism mock API for frontend development when the real backend is unavailable.
 - Do not select a state library until that decision is explicitly made.

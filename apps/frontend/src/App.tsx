@@ -16,6 +16,7 @@ import type { EventType, Slot } from "@calls-calendar/api-dto/generated";
 import { useMemo, useState } from "react";
 
 import { calendarClient } from "./api/calendarClient";
+import { calendarQueryKeys } from "./api/queryKeys";
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
   weekday: "short",
@@ -96,8 +97,11 @@ function SlotList({ slots }: { slots: Slot[] }) {
 }
 
 export function App() {
-  const ownerQuery = useQuery({ queryFn: calendarClient.getOwner, queryKey: ["owner"] });
-  const eventTypesQuery = useQuery({ queryFn: calendarClient.listEventTypes, queryKey: ["eventTypes"] });
+  const ownerQuery = useQuery({ queryFn: calendarClient.getOwner, queryKey: calendarQueryKeys.owner });
+  const eventTypesQuery = useQuery({
+    queryFn: calendarClient.listEventTypes,
+    queryKey: calendarQueryKeys.eventTypes,
+  });
 
   const eventTypes = eventTypesQuery.data ?? [];
   const [selectedEventTypeId, setSelectedEventTypeId] = useState(eventTypes[0]?.id ?? 1);
@@ -109,7 +113,7 @@ export function App() {
   const slotsQuery = useQuery({
     enabled: Boolean(selectedEventType?.id),
     queryFn: () => calendarClient.listSlots(selectedEventType?.id ?? 0),
-    queryKey: ["slots", selectedEventType?.id],
+    queryKey: calendarQueryKeys.slots(selectedEventType?.id),
   });
 
   if (ownerQuery.isLoading || eventTypesQuery.isLoading) {

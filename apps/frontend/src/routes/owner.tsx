@@ -22,6 +22,13 @@ function OwnerLayout() {
           <nav className="ownerSidebarNav" aria-label="Owner navigation">
             <Link
               className="ownerSidebarLink"
+              data-active={pathname.startsWith("/owner/bookings")}
+              to="/owner/bookings"
+            >
+              Bookings
+            </Link>
+            <Link
+              className="ownerSidebarLink"
               data-active={pathname.startsWith("/owner/event-types")}
               to="/owner/event-types"
             >

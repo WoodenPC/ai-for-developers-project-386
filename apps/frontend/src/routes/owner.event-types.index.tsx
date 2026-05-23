@@ -19,6 +19,7 @@ import { useState } from "react";
 
 import { EventTypeForm, emptyEventTypeFormValues } from "../components/EventTypeForm";
 import { calendarClient } from "../api/calendarClient";
+import { calendarQueryKeys } from "../api/queryKeys";
 
 export const Route = createFileRoute("/owner/event-types/")({
   component: OwnerEventTypesPage,
@@ -27,10 +28,10 @@ export const Route = createFileRoute("/owner/event-types/")({
 function OwnerEventTypesPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const ownerQuery = useQuery({ queryFn: calendarClient.getOwner, queryKey: ["owner"] });
+  const ownerQuery = useQuery({ queryFn: calendarClient.getOwner, queryKey: calendarQueryKeys.owner });
   const eventTypesQuery = useQuery({
     queryFn: calendarClient.listOwnerEventTypes,
-    queryKey: ["owner", "eventTypes"],
+    queryKey: calendarQueryKeys.ownerEventTypes,
   });
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
 
@@ -38,7 +39,7 @@ function OwnerEventTypesPage() {
     mutationFn: calendarClient.createOwnerEventType,
     onSuccess: async () => {
       setCreateModalOpen(false);
-      await queryClient.invalidateQueries({ queryKey: ["owner", "eventTypes"] });
+      await queryClient.invalidateQueries({ queryKey: calendarQueryKeys.ownerEventTypes });
     },
   });
 

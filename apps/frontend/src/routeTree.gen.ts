@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as OwnerRouteImport } from './routes/owner'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OwnerEventTypesRouteImport } from './routes/owner.event-types'
+import { Route as OwnerBookingsRouteImport } from './routes/owner.bookings'
 import { Route as OwnerEventTypesIndexRouteImport } from './routes/owner.event-types.index'
 import { Route as OwnerEventTypesEventTypeIdEditRouteImport } from './routes/owner.event-types.$eventTypeId.edit'
 
@@ -30,6 +31,11 @@ const OwnerEventTypesRoute = OwnerEventTypesRouteImport.update({
   path: '/event-types',
   getParentRoute: () => OwnerRoute,
 } as any)
+const OwnerBookingsRoute = OwnerBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => OwnerRoute,
+} as any)
 const OwnerEventTypesIndexRoute = OwnerEventTypesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -45,6 +51,7 @@ const OwnerEventTypesEventTypeIdEditRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/owner': typeof OwnerRouteWithChildren
+  '/owner/bookings': typeof OwnerBookingsRoute
   '/owner/event-types': typeof OwnerEventTypesRouteWithChildren
   '/owner/event-types/': typeof OwnerEventTypesIndexRoute
   '/owner/event-types/$eventTypeId/edit': typeof OwnerEventTypesEventTypeIdEditRoute
@@ -52,6 +59,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/owner': typeof OwnerRouteWithChildren
+  '/owner/bookings': typeof OwnerBookingsRoute
   '/owner/event-types': typeof OwnerEventTypesIndexRoute
   '/owner/event-types/$eventTypeId/edit': typeof OwnerEventTypesEventTypeIdEditRoute
 }
@@ -59,6 +67,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/owner': typeof OwnerRouteWithChildren
+  '/owner/bookings': typeof OwnerBookingsRoute
   '/owner/event-types': typeof OwnerEventTypesRouteWithChildren
   '/owner/event-types/': typeof OwnerEventTypesIndexRoute
   '/owner/event-types/$eventTypeId/edit': typeof OwnerEventTypesEventTypeIdEditRoute
@@ -68,6 +77,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/owner'
+    | '/owner/bookings'
     | '/owner/event-types'
     | '/owner/event-types/'
     | '/owner/event-types/$eventTypeId/edit'
@@ -75,12 +85,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/owner'
+    | '/owner/bookings'
     | '/owner/event-types'
     | '/owner/event-types/$eventTypeId/edit'
   id:
     | '__root__'
     | '/'
     | '/owner'
+    | '/owner/bookings'
     | '/owner/event-types'
     | '/owner/event-types/'
     | '/owner/event-types/$eventTypeId/edit'
@@ -112,6 +124,13 @@ declare module '@tanstack/react-router' {
       path: '/event-types'
       fullPath: '/owner/event-types'
       preLoaderRoute: typeof OwnerEventTypesRouteImport
+      parentRoute: typeof OwnerRoute
+    }
+    '/owner/bookings': {
+      id: '/owner/bookings'
+      path: '/bookings'
+      fullPath: '/owner/bookings'
+      preLoaderRoute: typeof OwnerBookingsRouteImport
       parentRoute: typeof OwnerRoute
     }
     '/owner/event-types/': {
@@ -146,10 +165,12 @@ const OwnerEventTypesRouteWithChildren = OwnerEventTypesRoute._addFileChildren(
 )
 
 interface OwnerRouteChildren {
+  OwnerBookingsRoute: typeof OwnerBookingsRoute
   OwnerEventTypesRoute: typeof OwnerEventTypesRouteWithChildren
 }
 
 const OwnerRouteChildren: OwnerRouteChildren = {
+  OwnerBookingsRoute: OwnerBookingsRoute,
   OwnerEventTypesRoute: OwnerEventTypesRouteWithChildren,
 }
 
