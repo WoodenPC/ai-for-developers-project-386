@@ -1,9 +1,9 @@
 import { Alert, Badge, Box, Container, Divider, Group, Loader, Paper, Stack, Text, Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 
-import { calendarClient } from "../../api/calendarClient";
-import { calendarQueryKeys } from "../../api/queryKeys";
-import { BookingRow } from "./BookingRow";
+import { calendarClient } from "../../api/calendar-client";
+import { calendarQueryKeys } from "../../api/query-keys";
+import { BookingRow } from "./booking-row";
 
 export function OwnerBookingsPage() {
   const ownerQuery = useQuery({ queryFn: calendarClient.getOwner, queryKey: calendarQueryKeys.owner });

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { OwnerEventTypeEditPage } from "../components/owner-event-types/OwnerEventTypeEditPage";
+import { OwnerEventTypeEditPage } from "../components/owner-event-types/owner-event-type-edit-page";
 
 export const Route = createFileRoute("/owner/event-types/$eventTypeId/edit")({
   component: OwnerEventTypeEditRoute,

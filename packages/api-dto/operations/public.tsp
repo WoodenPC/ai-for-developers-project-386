@@ -11,7 +11,7 @@ namespace Public {
     startAt: utcDateTime;
 
     @doc("Guest name. Guest email is intentionally not part of the current contract.")
-    guestName: string;
+    guestName: CallsCalendar.NonEmptyString;
   }
 
   model CreatedBookingResponse {

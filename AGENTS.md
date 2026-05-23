@@ -20,3 +20,4 @@ Workspaces:
 - Keep API design first: frontend and backend changes that affect their contract must go through `packages/api-dto`.
 - Keep workspace ownership clear. Do not mix frontend implementation into backend or backend implementation into frontend.
 - Avoid adding dependencies until package choices are explicitly approved.
+- Prefer `kebab-case` for source file names unless a framework, generator, or external tool requires another naming convention.

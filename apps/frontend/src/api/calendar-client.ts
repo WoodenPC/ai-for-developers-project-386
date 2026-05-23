@@ -9,7 +9,7 @@ import type {
 } from "@calls-calendar/api-dto/generated";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "/api";
-const usesDefaultMockApi = apiBaseUrl === "/api";
+const usesMockApi = import.meta.env.VITE_API_MODE === "mock";
 let ownerEventTypesCache: EventType[] | undefined;
 
 const today = () => new Date().toISOString().slice(0, 10);
@@ -85,7 +85,7 @@ export const calendarClient = {
   async listOwnerEventTypes(): Promise<EventType[]> {
     const eventTypes = await request<EventType[]>("/owner/event-types");
 
-    if (!usesDefaultMockApi) {
+    if (!usesMockApi) {
       return eventTypes;
     }
 
@@ -93,7 +93,7 @@ export const calendarClient = {
     return ownerEventTypesCache;
   },
   async getOwnerEventType(eventTypeId: number): Promise<EventType> {
-    const cachedEventType = usesDefaultMockApi
+    const cachedEventType = usesMockApi
       ? ownerEventTypesCache?.find((eventType) => eventType.id === eventTypeId)
       : undefined;
 
@@ -101,7 +101,7 @@ export const calendarClient = {
       return cachedEventType;
     }
 
-    if (usesDefaultMockApi) {
+    if (usesMockApi) {
       const eventTypes = await this.listOwnerEventTypes();
       const eventType = eventTypes.find((item) => item.id === eventTypeId);
 
@@ -118,7 +118,7 @@ export const calendarClient = {
       method: "POST",
     });
 
-    if (!usesDefaultMockApi) {
+    if (!usesMockApi) {
       return createdEventType;
     }
 
@@ -134,7 +134,7 @@ export const calendarClient = {
       method: "PUT",
     });
 
-    if (!usesDefaultMockApi) {
+    if (!usesMockApi) {
       return updatedEventType;
     }
 

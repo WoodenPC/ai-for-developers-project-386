@@ -1,7 +1,7 @@
 import { Badge, Box, Group, Paper, Text } from "@mantine/core";
 import type { Booking } from "@calls-calendar/api-dto/generated";
 
-import { formatBookingDate, formatBookingTime } from "./dateFormatters";
+import { formatBookingDate, formatBookingTime } from "./date-formatters";
 
 export function BookingRow({ booking }: { booking: Booking }) {
   return (

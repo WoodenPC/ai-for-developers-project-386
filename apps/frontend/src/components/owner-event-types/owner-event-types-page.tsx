@@ -16,10 +16,10 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { calendarClient } from "../../api/calendarClient";
-import { calendarQueryKeys } from "../../api/queryKeys";
-import { EventTypeForm, emptyEventTypeFormValues } from "../EventTypeForm";
-import { EventTypeRow } from "./EventTypeRow";
+import { calendarClient } from "../../api/calendar-client";
+import { calendarQueryKeys } from "../../api/query-keys";
+import { EventTypeForm, emptyEventTypeFormValues } from "../event-type-form";
+import { EventTypeRow } from "./event-type-row";
 
 export function OwnerEventTypesPage() {
   const queryClient = useQueryClient();

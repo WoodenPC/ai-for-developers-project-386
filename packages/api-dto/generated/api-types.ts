@@ -151,8 +151,8 @@ export type components = {
             id: string;
             /** Format: int32 */
             eventTypeId: number;
-            eventTypeTitle: string;
-            guestName: string;
+            eventTypeTitle: components["schemas"]["NonEmptyString"];
+            guestName: components["schemas"]["NonEmptyString"];
             /** Format: date-time */
             startAt: string;
             /** Format: date-time */
@@ -168,29 +168,29 @@ export type components = {
         EventType: {
             /** Format: int32 */
             id: number;
-            title: string;
-            description: string;
-            /** Format: int32 */
-            durationMinutes: number;
+            title: components["schemas"]["NonEmptyString"];
+            description: components["schemas"]["NonEmptyString"];
+            durationMinutes: components["schemas"]["PositiveMinutes"];
         };
+        NonEmptyString: string;
         /** @description A single predefined calendar owner profile. The owner is not created, selected, or authenticated through the API. */
         Owner: {
             id: string;
-            name: string;
-            email: string;
+            name: components["schemas"]["NonEmptyString"];
+            email: components["schemas"]["NonEmptyString"];
         };
         "OwnerApi.CreateEventTypeRequest": {
-            title: string;
-            description: string;
-            /** Format: int32 */
-            durationMinutes: number;
+            title: components["schemas"]["NonEmptyString"];
+            description: components["schemas"]["NonEmptyString"];
+            durationMinutes: components["schemas"]["PositiveMinutes"];
         };
         "OwnerApi.UpdateEventTypeRequest": {
-            title: string;
-            description: string;
-            /** Format: int32 */
-            durationMinutes: number;
+            title: components["schemas"]["NonEmptyString"];
+            description: components["schemas"]["NonEmptyString"];
+            durationMinutes: components["schemas"]["PositiveMinutes"];
         };
+        /** Format: int32 */
+        PositiveMinutes: number;
         "Public.CreateBookingRequest": {
             /** Format: int32 */
             eventTypeId: number;
@@ -200,7 +200,7 @@ export type components = {
              */
             startAt: string;
             /** @description Guest name. Guest email is intentionally not part of the current contract. */
-            guestName: string;
+            guestName: components["schemas"]["NonEmptyString"];
         };
         /** @description A potential booking time for a selected event type. */
         Slot: {
@@ -223,9 +223,11 @@ export type components = {
 export type Booking = components['schemas']['Booking'];
 export type ErrorResponse = components['schemas']['ErrorResponse'];
 export type EventType = components['schemas']['EventType'];
+export type NonEmptyString = components['schemas']['NonEmptyString'];
 export type Owner = components['schemas']['Owner'];
 export type OwnerApiCreateEventTypeRequest = components['schemas']['OwnerApi.CreateEventTypeRequest'];
 export type OwnerApiUpdateEventTypeRequest = components['schemas']['OwnerApi.UpdateEventTypeRequest'];
+export type PositiveMinutes = components['schemas']['PositiveMinutes'];
 export type PublicCreateBookingRequest = components['schemas']['Public.CreateBookingRequest'];
 export type Slot = components['schemas']['Slot'];
 export type $defs = Record<string, never>;
