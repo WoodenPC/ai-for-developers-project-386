@@ -138,10 +138,9 @@ describe("CalendarService slots and bookings", () => {
     ).toThrowError(new ApiError("slot_taken"));
   });
 
-  it("rejects invalid dates and missing slots", () => {
+  it("rejects missing slots", () => {
     const service = createTestService();
 
-    expect(() => service.listSlots(1, "2026-02-31")).toThrowError(new ApiError("invalid_from_date"));
     expect(() =>
       service.createBooking({
         eventTypeId: 1,

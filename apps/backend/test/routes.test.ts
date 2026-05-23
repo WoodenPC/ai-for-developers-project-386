@@ -91,15 +91,37 @@ describe("backend routes", () => {
   it("returns invalid_from_date for malformed slot queries", async () => {
     const readyApp = await createReadyApp();
 
+    for (const fromDate of ["not-date", "2026-02-31"]) {
+      const response = await readyApp.inject({
+        method: "GET",
+        url: `/event-types/1/slots?fromDate=${fromDate}`,
+      });
+
+      expect(response.statusCode).toBe(400);
+      expect(response.json()).toEqual({
+        code: "invalid_from_date",
+        message: "fromDate must be a valid calendar date.",
+      });
+    }
+  });
+
+  it("returns invalid_booking for malformed booking datetimes", async () => {
+    const readyApp = await createReadyApp();
+
     const response = await readyApp.inject({
-      method: "GET",
-      url: "/event-types/1/slots?fromDate=not-date",
+      method: "POST",
+      payload: {
+        eventTypeId: 1,
+        guestName: "Taylor Kim",
+        startAt: "not-date",
+      },
+      url: "/bookings",
     });
 
     expect(response.statusCode).toBe(400);
     expect(response.json()).toEqual({
-      code: "invalid_from_date",
-      message: "fromDate must be a valid calendar date.",
+      code: "invalid_booking",
+      message: "Booking request is invalid.",
     });
   });
 });

@@ -1,4 +1,3 @@
-import { ApiError } from "../errors.js";
 import type { Booking, EventType, Slot } from "../types.js";
 
 type PlainDate = {
@@ -7,28 +6,19 @@ type PlainDate = {
   year: number;
 };
 
-const dateOnlyPattern = /^\d{4}-\d{2}-\d{2}$/;
 const morningStart = { hour: 9, minute: 0 };
 const morningEnd = { hour: 11, minute: 0 };
 const afternoonStart = { hour: 16, minute: 30 };
 const bookingWindowDays = 14;
 
-function parseDateOnly(value: string) {
-  if (!dateOnlyPattern.test(value)) {
-    return undefined;
-  }
+function toPlainDate(value: string) {
+  const date = new Date(value);
 
-  const [yearText, monthText, dayText] = value.split("-");
-  const year = Number(yearText);
-  const month = Number(monthText);
-  const day = Number(dayText);
-  const date = new Date(Date.UTC(year, month - 1, day));
-
-  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) {
-    return undefined;
-  }
-
-  return { day, month, year };
+  return {
+    day: date.getUTCDate(),
+    month: date.getUTCMonth() + 1,
+    year: date.getUTCFullYear(),
+  };
 }
 
 function addDays(date: PlainDate, days: number) {
@@ -62,17 +52,12 @@ function fromMinutes(value: number) {
 
 export class BookingScheduleService {
   listSlots(eventType: EventType, bookings: Booking[], fromDate: string) {
-    const parsedDate = parseDateOnly(fromDate);
-
-    if (!parsedDate) {
-      throw new ApiError("invalid_from_date");
-    }
-
+    const startDate = toPlainDate(fromDate);
     const nowMs = new Date().getTime();
     const slots: Slot[] = [];
 
     for (let dayOffset = 0; dayOffset < bookingWindowDays; dayOffset += 1) {
-      const date = addDays(parsedDate, dayOffset);
+      const date = addDays(startDate, dayOffset);
       const morningStartMinutes = toMinutes(morningStart);
       const morningEndMinutes = toMinutes(morningEnd);
 
@@ -93,11 +78,6 @@ export class BookingScheduleService {
 
   addMinutesIso(value: string, minutes: number) {
     return new Date(new Date(value).getTime() + minutes * 60_000).toISOString();
-  }
-
-  isValidDateTime(value: string) {
-    const time = Date.parse(value);
-    return Number.isFinite(time) && new Date(time).toISOString() === value;
   }
 
   private buildSlot(

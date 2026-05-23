@@ -96,8 +96,7 @@ export class CalendarService {
       !Number.isInteger(input.eventTypeId) ||
       typeof input.guestName !== "string" ||
       !input.guestName.trim() ||
-      typeof input.startAt !== "string" ||
-      !this.scheduleService.isValidDateTime(input.startAt)
+      typeof input.startAt !== "string"
     ) {
       throw new ApiError("invalid_booking");
     }

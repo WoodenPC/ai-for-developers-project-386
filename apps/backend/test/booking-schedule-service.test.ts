@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { ApiError } from "../src/errors.js";
 import { BookingScheduleService } from "../src/services/booking-schedule-service.js";
 import type { Booking, EventType } from "../src/types.js";
 import { fixedNow } from "./helpers.js";
@@ -47,13 +46,6 @@ describe("BookingScheduleService", () => {
     });
   });
 
-  it("rejects malformed and impossible calendar dates", () => {
-    const service = new BookingScheduleService();
-
-    expect(() => service.listSlots(eventType, [], "not-date")).toThrowError(new ApiError("invalid_from_date"));
-    expect(() => service.listSlots(eventType, [], "2026-02-31")).toThrowError(new ApiError("invalid_from_date"));
-  });
-
   it("marks past and already booked slots unavailable", () => {
     const bookings: Booking[] = [
       {
@@ -76,11 +68,9 @@ describe("BookingScheduleService", () => {
     expect(slots[2]?.available).toBe(true);
   });
 
-  it("validates and offsets ISO datetimes", () => {
+  it("offsets ISO datetimes", () => {
     const service = new BookingScheduleService();
 
-    expect(service.isValidDateTime("2026-05-23T06:00:00.000Z")).toBe(true);
-    expect(service.isValidDateTime("2026-05-23T06:00:00Z")).toBe(false);
     expect(service.addMinutesIso("2026-05-23T06:00:00.000Z", 45)).toBe("2026-05-23T06:45:00.000Z");
   });
 });
