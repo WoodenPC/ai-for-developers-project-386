@@ -1,8 +1,18 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ApiError } from "../src/errors.js";
 import { createTestRepository, createTestService, fixedNow } from "./helpers.js";
+import { BookingScheduleService } from "../src/services/booking-schedule-service.js";
 import { CalendarService } from "../src/services/calendar-service.js";
 import type { Booking } from "../src/types.js";
+
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ["Date"] });
+  vi.setSystemTime(fixedNow);
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 describe("CalendarService event types", () => {
   it("creates event types with trimmed fields and the next id", () => {
@@ -101,7 +111,7 @@ describe("CalendarService slots and bookings", () => {
 
   it("marks booked slots unavailable and rejects duplicate startAt across event types", () => {
     const repository = createTestRepository();
-    const service = new CalendarService(repository, () => fixedNow);
+    const service = new CalendarService(repository, new BookingScheduleService());
 
     const booking = service.createBooking({
       eventTypeId: 1,

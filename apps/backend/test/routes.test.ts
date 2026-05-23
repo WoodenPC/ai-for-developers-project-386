@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { FastifyInstance } from "fastify";
 import { createApp } from "../src/app.js";
 import { fixedNow } from "./helpers.js";
@@ -6,16 +6,20 @@ import { fixedNow } from "./helpers.js";
 let app: FastifyInstance | undefined;
 
 async function createReadyApp() {
-  app = createApp({
-    clock: () => fixedNow,
-  });
+  app = createApp();
   await app.ready();
   return app;
 }
 
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ["Date"] });
+  vi.setSystemTime(fixedNow);
+});
+
 afterEach(async () => {
   await app?.close();
   app = undefined;
+  vi.useRealTimers();
 });
 
 describe("backend routes", () => {

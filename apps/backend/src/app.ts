@@ -5,11 +5,7 @@ import { ApiError, isApiError } from "./errors.js";
 import type { ErrorCode } from "./errors.js";
 import { calendarDependenciesPlugin } from "./plugins/calendar-dependencies.js";
 
-export function createApp({
-  clock,
-}: {
-  clock?: () => Date;
-} = {}): FastifyInstance {
+export function createApp(): FastifyInstance {
   const app = Fastify({
     ajv: {
       customOptions: {
@@ -48,7 +44,7 @@ export function createApp({
     });
   });
 
-  app.register(calendarDependenciesPlugin, { clock });
+  app.register(calendarDependenciesPlugin);
 
   return app;
 }

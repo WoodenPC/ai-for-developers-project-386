@@ -7,15 +7,8 @@ import type {
   OwnerApiCreateEventTypeRequest,
   OwnerApiUpdateEventTypeRequest,
   PublicCreateBookingRequest,
-  Slot,
 } from "../types.js";
-import { addDays, addMinutesIso, isValidDateTime, moscowLocalDateTimeToIso, parseDateOnly } from "./date-utils.js";
-
-type Clock = () => Date;
-
-const morningStart = { hour: 9, minute: 0 };
-const morningEnd = { hour: 11, minute: 0 };
-const afternoonStart = { hour: 16, minute: 30 };
+import { BookingScheduleService } from "./booking-schedule-service.js";
 
 function normalizeEventTypeInput(input: EventTypeInput) {
   const title = typeof input.title === "string" ? input.title.trim() : "";
@@ -37,21 +30,10 @@ function isExistingStart(bookings: Booking[], startAt: string) {
   return bookings.some((booking) => booking.startAt === startAt);
 }
 
-function toMinutes(time: { hour: number; minute: number }) {
-  return time.hour * 60 + time.minute;
-}
-
-function fromMinutes(value: number) {
-  return {
-    hour: Math.floor(value / 60),
-    minute: value % 60,
-  };
-}
-
 export class CalendarService {
   constructor(
     private readonly repository: CalendarRepository,
-    private readonly clock: Clock = () => new Date(),
+    private readonly scheduleService: BookingScheduleService = new BookingScheduleService(),
   ) {}
 
   getOwner() {
@@ -104,34 +86,8 @@ export class CalendarService {
 
   listSlots(eventTypeId: number, fromDate: string) {
     const eventType = this.getEventType(eventTypeId);
-    const parsedDate = parseDateOnly(fromDate);
-
-    if (!parsedDate) {
-      throw new ApiError("invalid_from_date");
-    }
-
     const bookings = this.repository.getBookings();
-    const nowMs = this.clock().getTime();
-    const slots: Slot[] = [];
-
-    for (let dayOffset = 0; dayOffset < 14; dayOffset += 1) {
-      const date = addDays(parsedDate, dayOffset);
-      const morningStartMinutes = toMinutes(morningStart);
-      const morningEndMinutes = toMinutes(morningEnd);
-
-      for (
-        let startMinutes = morningStartMinutes;
-        startMinutes <= morningEndMinutes;
-        startMinutes += eventType.durationMinutes
-      ) {
-        const startTime = fromMinutes(startMinutes);
-        slots.push(this.buildSlot(eventType, date, startTime.hour, startTime.minute, bookings, nowMs));
-      }
-
-      slots.push(this.buildSlot(eventType, date, afternoonStart.hour, afternoonStart.minute, bookings, nowMs));
-    }
-
-    return slots;
+    return this.scheduleService.listSlots(eventType, bookings, fromDate);
   }
 
   createBooking(input: PublicCreateBookingRequest) {
@@ -141,7 +97,7 @@ export class CalendarService {
       typeof input.guestName !== "string" ||
       !input.guestName.trim() ||
       typeof input.startAt !== "string" ||
-      !isValidDateTime(input.startAt)
+      !this.scheduleService.isValidDateTime(input.startAt)
     ) {
       throw new ApiError("invalid_booking");
     }
@@ -156,7 +112,7 @@ export class CalendarService {
 
     const startMs = new Date(input.startAt).getTime();
 
-    if (startMs <= this.clock().getTime()) {
+    if (startMs <= new Date().getTime()) {
       throw new ApiError("slot_not_found");
     }
 
@@ -173,8 +129,8 @@ export class CalendarService {
     }
 
     const booking: Booking = {
-      createdAt: this.clock().toISOString(),
-      endAt: addMinutesIso(input.startAt, eventType.durationMinutes),
+      createdAt: new Date().toISOString(),
+      endAt: this.scheduleService.addMinutesIso(input.startAt, eventType.durationMinutes),
       eventTypeId: eventType.id,
       eventTypeTitle: eventType.title,
       guestName,
@@ -186,29 +142,11 @@ export class CalendarService {
   }
 
   listUpcomingBookings() {
-    const nowMs = this.clock().getTime();
+    const nowMs = new Date().getTime();
 
     return this.repository
       .getBookings()
       .filter((booking) => new Date(booking.startAt).getTime() > nowMs)
       .sort((left, right) => new Date(left.startAt).getTime() - new Date(right.startAt).getTime());
-  }
-
-  private buildSlot(
-    eventType: EventType,
-    date: { day: number; month: number; year: number },
-    hour: number,
-    minute: number,
-    bookings: Booking[],
-    nowMs: number,
-  ): Slot {
-    const startAt = moscowLocalDateTimeToIso(date, hour, minute);
-
-    return {
-      available: new Date(startAt).getTime() > nowMs && !isExistingStart(bookings, startAt),
-      endAt: addMinutesIso(startAt, eventType.durationMinutes),
-      eventTypeId: eventType.id,
-      startAt,
-    };
   }
 }
