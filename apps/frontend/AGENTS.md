@@ -10,6 +10,7 @@ This workspace contains the client application for the calls calendar.
 - Do not hardcode backend API shapes when the change belongs in `api-dto`.
 - Build frontend application code with TypeScript and React.
 - Use Mantine as the UI kit.
+- Use zod for frontend form schemas and validation, and react-hook-form for form state and submission.
 - Use TanStack Router for routing.
 - Routing must be file-based.
 - Do not duplicate API DTO types in this workspace; import generated API types from `@calls-calendar/api-dto/generated`.

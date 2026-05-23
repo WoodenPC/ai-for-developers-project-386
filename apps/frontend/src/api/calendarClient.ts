@@ -1,11 +1,30 @@
-import type { Booking, EventType, Owner, Slot } from "@calls-calendar/api-dto/generated";
+import type {
+  Booking,
+  EventType,
+  Owner,
+  OwnerApiCreateEventTypeRequest,
+  OwnerApiUpdateEventTypeRequest,
+  Slot,
+} from "@calls-calendar/api-dto/generated";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "/api";
+const usesDefaultMockApi = apiBaseUrl === "/api";
+let ownerEventTypesCache: EventType[] | undefined;
 
 const today = () => new Date().toISOString().slice(0, 10);
 
-async function request<T>(path: string): Promise<T> {
-  const response = await fetch(`${apiBaseUrl}${path}`);
+function nextMockEventTypeId(eventTypes: EventType[]) {
+  return Math.max(0, ...eventTypes.map((eventType) => eventType.id)) + Math.floor(Math.random() * 1000) + 1;
+}
+
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const response = await fetch(`${apiBaseUrl}${path}`, {
+    ...init,
+    headers: {
+      ...(init?.body ? { "Content-Type": "application/json" } : {}),
+      ...init?.headers,
+    },
+  });
 
   if (!response.ok) {
     throw new Error(`API request failed: ${response.status} ${response.statusText}`);
@@ -21,9 +40,9 @@ export const calendarClient = {
   async listEventTypes(): Promise<EventType[]> {
     return request<EventType[]>("/event-types");
   },
-  async listSlots(eventTypeId: string): Promise<Slot[]> {
+  async listSlots(eventTypeId: number): Promise<Slot[]> {
     const query = new URLSearchParams({ fromDate: today() });
-    return request<Slot[]>(`/event-types/${encodeURIComponent(eventTypeId)}/slots?${query.toString()}`);
+    return request<Slot[]>(`/event-types/${encodeURIComponent(String(eventTypeId))}/slots?${query.toString()}`);
   },
   async listAllSlots(): Promise<Slot[]> {
     const eventTypes = await this.listEventTypes();
@@ -35,5 +54,65 @@ export const calendarClient = {
     return [...bookings].sort(
       (left, right) => new Date(left.startAt).getTime() - new Date(right.startAt).getTime(),
     );
+  },
+  async listOwnerEventTypes(): Promise<EventType[]> {
+    const eventTypes = await request<EventType[]>("/owner/event-types");
+
+    if (!usesDefaultMockApi) {
+      return eventTypes;
+    }
+
+    ownerEventTypesCache ??= eventTypes;
+    return ownerEventTypesCache;
+  },
+  async getOwnerEventType(eventTypeId: number): Promise<EventType> {
+    const cachedEventType = usesDefaultMockApi
+      ? ownerEventTypesCache?.find((eventType) => eventType.id === eventTypeId)
+      : undefined;
+
+    if (cachedEventType) {
+      return cachedEventType;
+    }
+
+    if (usesDefaultMockApi) {
+      const eventTypes = await this.listOwnerEventTypes();
+      const eventType = eventTypes.find((item) => item.id === eventTypeId);
+
+      if (eventType) {
+        return eventType;
+      }
+    }
+
+    return request<EventType>(`/owner/event-types/${encodeURIComponent(String(eventTypeId))}`);
+  },
+  async createOwnerEventType(body: OwnerApiCreateEventTypeRequest): Promise<EventType> {
+    const createdEventType = await request<EventType>("/owner/event-types", {
+      body: JSON.stringify(body),
+      method: "POST",
+    });
+
+    if (!usesDefaultMockApi) {
+      return createdEventType;
+    }
+
+    const existingEventTypes = ownerEventTypesCache ?? [];
+    const eventType = { ...createdEventType, ...body, id: nextMockEventTypeId(existingEventTypes) };
+
+    ownerEventTypesCache = [...existingEventTypes, eventType];
+    return eventType;
+  },
+  async updateOwnerEventType(eventTypeId: number, body: OwnerApiUpdateEventTypeRequest): Promise<EventType> {
+    const updatedEventType = await request<EventType>(`/owner/event-types/${encodeURIComponent(String(eventTypeId))}`, {
+      body: JSON.stringify(body),
+      method: "PUT",
+    });
+
+    if (!usesDefaultMockApi) {
+      return updatedEventType;
+    }
+
+    const eventType = { ...updatedEventType, ...body, id: eventTypeId };
+    ownerEventTypesCache = (ownerEventTypesCache ?? []).map((item) => (item.id === eventTypeId ? eventType : item));
+    return eventType;
   },
 };

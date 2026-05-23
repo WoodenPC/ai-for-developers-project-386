@@ -113,10 +113,29 @@ export type paths = {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** @description Lists event types managed by the predefined owner calendar. */
+        get: operations["OwnerApi_listEventTypes"];
         put?: never;
         /** @description Creates an event type for the predefined owner calendar. */
         post: operations["OwnerApi_createEventType"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/owner/event-types/{eventTypeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Returns an event type managed by the predefined owner calendar. */
+        get: operations["OwnerApi_getEventType"];
+        /** @description Updates an event type for the predefined owner calendar. */
+        put: operations["OwnerApi_updateEventType"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -130,7 +149,8 @@ export type components = {
         /** @description A guest booking. Guests do not have accounts and are identified only by the provided name. */
         Booking: {
             id: string;
-            eventTypeId: string;
+            /** Format: int32 */
+            eventTypeId: number;
             eventTypeTitle: string;
             guestName: string;
             /** Format: date-time */
@@ -146,7 +166,8 @@ export type components = {
         };
         /** @description A type of meeting that guests can book. */
         EventType: {
-            id: string;
+            /** Format: int32 */
+            id: number;
             title: string;
             description: string;
             /** Format: int32 */
@@ -159,14 +180,20 @@ export type components = {
             email: string;
         };
         "OwnerApi.CreateEventTypeRequest": {
-            id: string;
+            title: string;
+            description: string;
+            /** Format: int32 */
+            durationMinutes: number;
+        };
+        "OwnerApi.UpdateEventTypeRequest": {
             title: string;
             description: string;
             /** Format: int32 */
             durationMinutes: number;
         };
         "Public.CreateBookingRequest": {
-            eventTypeId: string;
+            /** Format: int32 */
+            eventTypeId: number;
             /**
              * Format: date-time
              * @description Start time of a free slot returned by GET /event-types/{eventTypeId}/slots.
@@ -177,7 +204,8 @@ export type components = {
         };
         /** @description A potential booking time for a selected event type. */
         Slot: {
-            eventTypeId: string;
+            /** Format: int32 */
+            eventTypeId: number;
             /** Format: date-time */
             startAt: string;
             /** Format: date-time */
@@ -197,6 +225,7 @@ export type ErrorResponse = components['schemas']['ErrorResponse'];
 export type EventType = components['schemas']['EventType'];
 export type Owner = components['schemas']['Owner'];
 export type OwnerApiCreateEventTypeRequest = components['schemas']['OwnerApi.CreateEventTypeRequest'];
+export type OwnerApiUpdateEventTypeRequest = components['schemas']['OwnerApi.UpdateEventTypeRequest'];
 export type PublicCreateBookingRequest = components['schemas']['Public.CreateBookingRequest'];
 export type Slot = components['schemas']['Slot'];
 export type $defs = Record<string, never>;
@@ -277,7 +306,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                eventTypeId: string;
+                eventTypeId: number;
             };
             cookie?: never;
         };
@@ -311,7 +340,7 @@ export interface operations {
             };
             header?: never;
             path: {
-                eventTypeId: string;
+                eventTypeId: number;
             };
             cookie?: never;
         };
@@ -386,6 +415,26 @@ export interface operations {
             };
         };
     };
+    OwnerApi_listEventTypes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventType"][];
+                };
+            };
+        };
+    };
     OwnerApi_createEventType: {
         parameters: {
             query?: never;
@@ -419,6 +468,81 @@ export interface operations {
             };
             /** @description The request conflicts with the current state of the server. */
             409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    OwnerApi_getEventType: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eventTypeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventType"];
+                };
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    OwnerApi_updateEventType: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eventTypeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OwnerApi.UpdateEventTypeRequest"];
+            };
+        };
+        responses: {
+            /** @description The request has succeeded. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventType"];
+                };
+            };
+            /** @description The server could not understand the request due to invalid syntax. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description The server cannot find the requested resource. */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

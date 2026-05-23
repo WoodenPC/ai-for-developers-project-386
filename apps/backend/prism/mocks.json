@@ -9,19 +9,19 @@
   "Public_listEventTypes": {
     "200": [
       {
-        "id": "intro-call",
+        "id": 1,
         "title": "Intro call",
         "description": "Quick alignment call for new requests and project fit.",
         "durationMinutes": 30
       },
       {
-        "id": "delivery-review",
+        "id": 2,
         "title": "Delivery review",
         "description": "A structured review for roadmap, blockers, and next actions.",
         "durationMinutes": 45
       },
       {
-        "id": "technical-session",
+        "id": 3,
         "title": "Technical session",
         "description": "Focused time for architecture, API design, or implementation details.",
         "durationMinutes": 60
@@ -30,7 +30,7 @@
   },
   "Public_getEventType": {
     "200": {
-      "id": "intro-call",
+      "id": 1,
       "title": "Intro call",
       "description": "Quick alignment call for new requests and project fit.",
       "durationMinutes": 30
@@ -43,19 +43,19 @@
   "Public_listSlots": {
     "200": [
       {
-        "eventTypeId": "intro-call",
+        "eventTypeId": 1,
         "startAt": "2026-05-23T10:00:00.000Z",
         "endAt": "2026-05-23T10:30:00.000Z",
         "available": true
       },
       {
-        "eventTypeId": "intro-call",
+        "eventTypeId": 1,
         "startAt": "2026-05-24T11:00:00.000Z",
         "endAt": "2026-05-24T11:30:00.000Z",
         "available": true
       },
       {
-        "eventTypeId": "intro-call",
+        "eventTypeId": 1,
         "startAt": "2026-05-25T12:00:00.000Z",
         "endAt": "2026-05-25T12:30:00.000Z",
         "available": false
@@ -73,7 +73,7 @@
   "Public_createBooking": {
     "201": {
       "id": "booking-new",
-      "eventTypeId": "intro-call",
+      "eventTypeId": 1,
       "eventTypeTitle": "Intro call",
       "guestName": "Taylor Kim",
       "startAt": "2026-05-23T10:00:00.000Z",
@@ -93,9 +93,43 @@
       "message": "Requested slot is already booked."
     }
   },
+  "OwnerApi_listEventTypes": {
+    "200": [
+      {
+        "id": 1,
+        "title": "Intro call",
+        "description": "Quick alignment call for new requests and project fit.",
+        "durationMinutes": 30
+      },
+      {
+        "id": 2,
+        "title": "Delivery review",
+        "description": "A structured review for roadmap, blockers, and next actions.",
+        "durationMinutes": 45
+      },
+      {
+        "id": 3,
+        "title": "Technical session",
+        "description": "Focused time for architecture, API design, or implementation details.",
+        "durationMinutes": 60
+      }
+    ]
+  },
+  "OwnerApi_getEventType": {
+    "200": {
+      "id": 1,
+      "title": "Intro call",
+      "description": "Quick alignment call for new requests and project fit.",
+      "durationMinutes": 30
+    },
+    "404": {
+      "code": "event_type_not_found",
+      "message": "Event type was not found."
+    }
+  },
   "OwnerApi_createEventType": {
     "201": {
-      "id": "strategy-call",
+      "id": 4,
       "title": "Strategy call",
       "description": "Planning session for next steps and delivery risks.",
       "durationMinutes": 45
@@ -109,11 +143,27 @@
       "message": "Event type already exists."
     }
   },
+  "OwnerApi_updateEventType": {
+    "200": {
+      "id": 1,
+      "title": "Intro call",
+      "description": "Quick alignment call for new requests and project fit.",
+      "durationMinutes": 30
+    },
+    "400": {
+      "code": "invalid_event_type",
+      "message": "Event type request is invalid."
+    },
+    "404": {
+      "code": "event_type_not_found",
+      "message": "Event type was not found."
+    }
+  },
   "OwnerApi_listUpcomingBookings": {
     "200": [
       {
         "id": "booking-1",
-        "eventTypeId": "intro-call",
+        "eventTypeId": 1,
         "eventTypeTitle": "Intro call",
         "guestName": "Sam Rivera",
         "startAt": "2026-05-23T09:00:00.000Z",
@@ -122,7 +172,7 @@
       },
       {
         "id": "booking-2",
-        "eventTypeId": "delivery-review",
+        "eventTypeId": 2,
         "eventTypeTitle": "Delivery review",
         "guestName": "Jordan Lee",
         "startAt": "2026-05-24T13:00:00.000Z",
@@ -131,7 +181,7 @@
       },
       {
         "id": "booking-3",
-        "eventTypeId": "technical-session",
+        "eventTypeId": 3,
         "eventTypeTitle": "Technical session",
         "guestName": "Mina Patel",
         "startAt": "2026-05-27T15:00:00.000Z",

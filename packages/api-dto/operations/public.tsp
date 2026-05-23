@@ -5,7 +5,7 @@ namespace CallsCalendar;
 @tag("Public")
 namespace Public {
   model CreateBookingRequest {
-    eventTypeId: CallsCalendar.Identifier;
+    eventTypeId: CallsCalendar.EventTypeId;
 
     @doc("Start time of a free slot returned by GET /event-types/{eventTypeId}/slots.")
     startAt: utcDateTime;
@@ -28,14 +28,14 @@ namespace Public {
   @get
   @route("/event-types/{eventTypeId}")
   op getEventType(
-    @path eventTypeId: CallsCalendar.Identifier,
+    @path eventTypeId: CallsCalendar.EventTypeId,
   ): CallsCalendar.EventType | CallsCalendar.NotFoundResponse;
 
   @doc("Lists free slots for the selected event type within the 14-day booking window starting from fromDate.")
   @get
   @route("/event-types/{eventTypeId}/slots")
   op listSlots(
-    @path eventTypeId: CallsCalendar.Identifier,
+    @path eventTypeId: CallsCalendar.EventTypeId,
 
     @doc("Calendar date sent by the client. Slots are returned for [fromDate, fromDate + 14 days).")
     @query fromDate: plainDate,

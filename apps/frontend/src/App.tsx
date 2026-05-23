@@ -7,10 +7,8 @@ import {
   Group,
   Loader,
   Paper,
-  SegmentedControl,
   Stack,
   Text,
-  ThemeIcon,
   Title,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
@@ -39,8 +37,8 @@ function EventTypeList({
   onSelect,
 }: {
   eventTypes: EventType[];
-  selectedId: string;
-  onSelect: (eventTypeId: string) => void;
+  selectedId: number;
+  onSelect: (eventTypeId: number) => void;
 }) {
   return (
     <Stack gap="sm">
@@ -98,20 +96,11 @@ function SlotList({ slots }: { slots: Slot[] }) {
 }
 
 export function App() {
-  const [view, setView] = useState("guest");
   const ownerQuery = useQuery({ queryFn: calendarClient.getOwner, queryKey: ["owner"] });
   const eventTypesQuery = useQuery({ queryFn: calendarClient.listEventTypes, queryKey: ["eventTypes"] });
-  const bookingsQuery = useQuery({
-    queryFn: calendarClient.listUpcomingBookings,
-    queryKey: ["bookings", "upcoming"],
-  });
-  const allSlotsQuery = useQuery({
-    queryFn: calendarClient.listAllSlots,
-    queryKey: ["slots", "all"],
-  });
 
   const eventTypes = eventTypesQuery.data ?? [];
-  const [selectedEventTypeId, setSelectedEventTypeId] = useState(eventTypes[0]?.id ?? "intro-call");
+  const [selectedEventTypeId, setSelectedEventTypeId] = useState(eventTypes[0]?.id ?? 1);
   const selectedEventType = useMemo(
     () => eventTypes.find((eventType) => eventType.id === selectedEventTypeId) ?? eventTypes[0],
     [eventTypes, selectedEventTypeId],
@@ -119,7 +108,7 @@ export function App() {
 
   const slotsQuery = useQuery({
     enabled: Boolean(selectedEventType?.id),
-    queryFn: () => calendarClient.listSlots(selectedEventType?.id ?? ""),
+    queryFn: () => calendarClient.listSlots(selectedEventType?.id ?? 0),
     queryKey: ["slots", selectedEventType?.id],
   });
 
@@ -139,128 +128,59 @@ export function App() {
             <Group justify="space-between" gap="md">
               <Box>
                 <Text c="dimmed" size="sm">
-                  Calls calendar
+                  Guest booking
                 </Text>
                 <Title order={1}>{ownerQuery.data?.name}</Title>
                 <Text c="dimmed">{ownerQuery.data?.email}</Text>
               </Box>
-              <SegmentedControl
-                data={[
-                  { label: "Guest", value: "guest" },
-                  { label: "Owner", value: "owner" },
-                ]}
-                onChange={setView}
+              <Button
+                component="a"
+                href="/owner/event-types"
                 radius="sm"
-                value={view}
-              />
+                variant="light"
+              >
+                Owner events
+              </Button>
             </Group>
           </Paper>
 
-          {view === "guest" ? (
-            <Box className="guestGrid">
-              <Box>
-                <Paper className="panel" withBorder>
-                  <Stack gap="md">
-                    <Box>
-                      <Title order={2}>Choose call type</Title>
-                      <Text c="dimmed" size="sm">
-                        Public event types available for booking.
-                      </Text>
-                    </Box>
-                    <EventTypeList
-                      eventTypes={eventTypes}
-                      onSelect={setSelectedEventTypeId}
-                      selectedId={selectedEventType?.id ?? ""}
-                    />
-                  </Stack>
-                </Paper>
-              </Box>
+          <Box className="guestGrid">
+            <Box>
+              <Paper className="panel" withBorder>
+                <Stack gap="md">
+                  <Box>
+                    <Title order={2}>Choose call type</Title>
+                    <Text c="dimmed" size="sm">
+                      Public event types available for booking.
+                    </Text>
+                  </Box>
+                  <EventTypeList
+                    eventTypes={eventTypes}
+                    onSelect={setSelectedEventTypeId}
+                    selectedId={selectedEventType?.id ?? 0}
+                  />
+                </Stack>
+              </Paper>
+            </Box>
 
-              <Box>
-                <Paper className="panel" withBorder>
-                  <Group align="flex-start" justify="space-between">
-                    <Box>
-                      <Title order={2}>{selectedEventType?.title ?? "Available slots"}</Title>
-                      <Text c="dimmed" size="sm">
-                        Next 14-day booking window.
-                      </Text>
-                    </Box>
-                    <Badge color="blue" variant="light">
-                      {slotsQuery.data?.filter((slot) => slot.available).length ?? 0} free
-                    </Badge>
-                  </Group>
-                  <Divider my="md" />
-                  {slotsQuery.isLoading ? <Loader color="teal" size="sm" /> : <SlotList slots={slotsQuery.data ?? []} />}
-                </Paper>
-              </Box>
+            <Box>
+              <Paper className="panel" withBorder>
+                <Group align="flex-start" justify="space-between">
+                  <Box>
+                    <Title order={2}>{selectedEventType?.title ?? "Available slots"}</Title>
+                    <Text c="dimmed" size="sm">
+                      Next 14-day booking window.
+                    </Text>
+                  </Box>
+                  <Badge color="blue" variant="light">
+                    {slotsQuery.data?.filter((slot) => slot.available).length ?? 0} free
+                  </Badge>
+                </Group>
+                <Divider my="md" />
+                {slotsQuery.isLoading ? <Loader color="teal" size="sm" /> : <SlotList slots={slotsQuery.data ?? []} />}
+              </Paper>
             </Box>
-          ) : (
-            <Box className="ownerGrid">
-              <Box>
-                <Paper className="metricPanel" withBorder>
-                  <ThemeIcon color="teal" radius="sm" size="lg">
-                    {eventTypes.length}
-                  </ThemeIcon>
-                  <Box>
-                    <Text fw={700}>Event types</Text>
-                    <Text c="dimmed" size="sm">
-                      Active public booking options
-                    </Text>
-                  </Box>
-                </Paper>
-              </Box>
-              <Box>
-                <Paper className="metricPanel" withBorder>
-                  <ThemeIcon color="blue" radius="sm" size="lg">
-                    {bookingsQuery.data?.length ?? 0}
-                  </ThemeIcon>
-                  <Box>
-                    <Text fw={700}>Upcoming bookings</Text>
-                    <Text c="dimmed" size="sm">
-                      Ordered by start time
-                    </Text>
-                  </Box>
-                </Paper>
-              </Box>
-              <Box>
-                <Paper className="metricPanel" withBorder>
-                  <ThemeIcon color="grape" radius="sm" size="lg">
-                    {allSlotsQuery.data?.filter((slot) => slot.available).length ?? 0}
-                  </ThemeIcon>
-                  <Box>
-                    <Text fw={700}>Open slots</Text>
-                    <Text c="dimmed" size="sm">
-                      Across all event types
-                    </Text>
-                  </Box>
-                </Paper>
-              </Box>
-              <Box className="bookingsPanel">
-                <Paper className="panel" withBorder>
-                  <Title order={2}>Upcoming bookings</Title>
-                  <Divider my="md" />
-                  <Stack gap="sm">
-                    {(bookingsQuery.data ?? []).map((booking) => (
-                      <Paper className="bookingRow" key={booking.id} withBorder>
-                        <Box>
-                          <Text fw={700}>{booking.guestName}</Text>
-                          <Text c="dimmed" size="sm">
-                            {booking.eventTypeTitle}
-                          </Text>
-                        </Box>
-                        <Box ta="right">
-                          <Text fw={700}>{formatDate(booking.startAt)}</Text>
-                          <Text c="dimmed" size="sm">
-                            {formatTime(booking.startAt)} - {formatTime(booking.endAt)}
-                          </Text>
-                        </Box>
-                      </Paper>
-                    ))}
-                  </Stack>
-                </Paper>
-              </Box>
-            </Box>
-          )}
+          </Box>
         </Stack>
       </Container>
     </main>
