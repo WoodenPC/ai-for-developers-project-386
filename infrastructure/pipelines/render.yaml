@@ -4,5 +4,5 @@ services:
     runtime: docker
     plan: free
     dockerContext: .
-    dockerfilePath: infrastructure/dockerfiles/Dockerfile.app
+    dockerfilePath: Dockerfile
     healthCheckPath: /
