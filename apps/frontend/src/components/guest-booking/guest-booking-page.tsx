@@ -128,14 +128,14 @@ export function GuestBookingPage({
                 <Title order={1}>Book a call</Title>
                 <Text c="dimmed">{ownerQuery.data?.email ?? ownerQuery.data?.name}</Text>
               </Box>
-              <Button component={Link} radius="sm" to="/" variant="light">
+              <Button component={Link} data-testid="all-events-link" radius="sm" to="/" variant="light">
                 All events
               </Button>
             </Group>
           </Paper>
 
           {!isValidEventTypeId ? (
-            <Alert color="red" radius="sm" variant="light">
+            <Alert color="red" data-testid="event-id-error" radius="sm" variant="light">
               Event id must be a positive number.
             </Alert>
           ) : eventTypeQuery.isLoading || ownerQuery.isLoading ? (
@@ -164,7 +164,7 @@ export function GuestBookingPage({
                     </Text>
                   </Box>
                   <Divider />
-                  <Box>
+                  <Box data-testid="booking-event-type-summary">
                     <Group gap="xs">
                       <Text fw={700}>{eventTypeQuery.data?.title}</Text>
                       <Badge color="teal" variant="light">
@@ -176,6 +176,7 @@ export function GuestBookingPage({
                     </Text>
                   </Box>
                   <TextInput
+                    data-testid="guest-name-input"
                     disabled={createBookingMutation.isPending}
                     error={errors.guestName?.message}
                     label="Your name"
@@ -196,6 +197,10 @@ export function GuestBookingPage({
                   </Box>
                   <DatePicker
                     fullWidth
+                    getDayProps={(date) => ({
+                      "data-date": date,
+                      "data-testid": "booking-calendar-day",
+                    })}
                     minDate={todayDateString()}
                     onChange={(value) => {
                       const nextDate = normalizeDateValue(value);
@@ -231,12 +236,25 @@ export function GuestBookingPage({
                   ) : (
                     <Stack gap="xs">
                       {visibleSlots.map((slot) => {
-                        const disabled = !slot.available || isPastSlot(slot) || createBookingMutation.isPending;
+                        const pastSlot = isPastSlot(slot);
+                        const disabled = !slot.available || pastSlot || createBookingMutation.isPending;
                         const selected = selectedSlotStartAt === slot.startAt;
+                        const slotState = createBookingMutation.isPending
+                          ? "pending"
+                          : !slot.available
+                            ? "taken"
+                            : pastSlot
+                              ? "past"
+                              : "available";
+                        const slotTimeLabel = `${formatTime(slot.startAt)} - ${formatTime(slot.endAt)}`;
 
                         return (
                           <Button
+                            aria-label={`Select time slot ${slotTimeLabel}`}
                             className={styles.timeSlotButton}
+                            data-slot-start-at={slot.startAt}
+                            data-slot-state={slotState}
+                            data-testid="booking-slot-option"
                             disabled={disabled}
                             fullWidth
                             key={`${slot.eventTypeId}-${slot.startAt}`}
@@ -246,7 +264,7 @@ export function GuestBookingPage({
                           >
                             <Box>
                               <Text fw={700} size="sm">
-                                {formatTime(slot.startAt)} - {formatTime(slot.endAt)}
+                                {slotTimeLabel}
                               </Text>
                               {disabled ? (
                                 <Text c="dimmed" size="xs">
@@ -267,13 +285,14 @@ export function GuestBookingPage({
                   ) : null}
 
                   {createdBooking ? (
-                    <Alert color="teal" radius="sm" variant="light">
+                    <Alert color="teal" data-testid="booking-confirmation" radius="sm" variant="light">
                       Confirmed for {formatDate(toDateString(new Date(createdBooking.startAt)))} at{" "}
                       {formatTime(createdBooking.startAt)}.
                     </Alert>
                   ) : null}
 
                   <Button
+                    data-testid="confirm-booking-button"
                     disabled={!canSubmit}
                     loading={createBookingMutation.isPending}
                     radius="sm"

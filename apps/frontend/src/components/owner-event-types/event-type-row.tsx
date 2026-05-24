@@ -8,7 +8,12 @@ export function EventTypeRow({ eventType }: { eventType: EventType }) {
   const navigate = useNavigate();
 
   return (
-    <Paper className={styles.eventTypeRow} withBorder>
+    <Paper
+      className={styles.eventTypeRow}
+      data-event-type-id={eventType.id}
+      data-testid="owner-event-type-row"
+      withBorder
+    >
       <Box className={styles.eventTypeRowContent}>
         <Group gap="xs">
           <Text fw={700}>{eventType.title}</Text>
@@ -25,6 +30,7 @@ export function EventTypeRow({ eventType }: { eventType: EventType }) {
           {eventType.durationMinutes} min
         </Badge>
         <Button
+          data-testid="edit-event-button"
           onClick={() =>
             navigate({
               params: { eventTypeId: String(eventType.id) },

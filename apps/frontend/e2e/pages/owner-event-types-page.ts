@@ -19,19 +19,19 @@ export class OwnerEventTypesPage {
   }
 
   eventTypeRow(title: string) {
-    return this.page.getByText(title, { exact: true }).locator("xpath=ancestor::*[.//button[normalize-space()='Edit']][1]");
+    return this.page.getByTestId("owner-event-type-row").filter({ hasText: title });
   }
 
   createButton() {
-    return this.page.getByRole("button", { name: "Create event" });
+    return this.page.getByTestId("create-event-button");
   }
 
   eventIdError() {
-    return this.page.getByText("Event id must be a positive number.");
+    return this.page.getByTestId("event-id-error");
   }
 
   async openNewEventForm() {
-    await this.page.getByRole("button", { name: "New event" }).click();
+    await this.page.getByTestId("new-event-button").click();
     await expect(this.page.getByRole("dialog", { name: "New event" })).toBeVisible();
   }
 
@@ -42,13 +42,13 @@ export class OwnerEventTypesPage {
   }
 
   async openEditForm(title: string) {
-    await this.eventTypeRow(title).getByRole("button", { name: "Edit" }).click();
+    await this.eventTypeRow(title).getByTestId("edit-event-button").click();
     await expect(this.page.getByRole("heading", { name: "Edit event" })).toBeVisible();
   }
 
   async saveEventType(values: EventTypeFormData) {
     await this.fillEventTypeForm(values);
-    await this.page.getByRole("button", { name: "Save changes" }).click();
+    await this.page.getByTestId("save-event-button").click();
   }
 
   private async fillEventTypeForm(values: EventTypeFormData) {

@@ -9,11 +9,11 @@ export class GuestEventTypesPage {
   }
 
   eventTypeLink(title: string | RegExp) {
-    return this.page.getByRole("link", { name: title });
+    return this.page.getByTestId("guest-event-type-link").filter({ hasText: title });
   }
 
   ownerEmail(email: string) {
-    return this.page.getByText(email);
+    return this.page.getByTestId("guest-owner-email").filter({ hasText: email });
   }
 
   ownerHeading(name: string) {

@@ -68,6 +68,7 @@ export function OwnerEventTypeEditPage({
               <ActionIcon
                 aria-label="Back to event types"
                 component={Link}
+                data-testid="back-to-event-types-button"
                 radius="sm"
                 size="lg"
                 to="/owner/event-types"
@@ -76,7 +77,7 @@ export function OwnerEventTypeEditPage({
                 &larr;
               </ActionIcon>
               <Breadcrumbs separator="/">
-                <Anchor component={Link} size="sm" to="/owner/event-types">
+                <Anchor component={Link} data-testid="event-types-breadcrumb-link" size="sm" to="/owner/event-types">
                   Event types
                 </Anchor>
                 <Text c="dimmed" size="sm">
@@ -100,7 +101,7 @@ export function OwnerEventTypeEditPage({
 
         <Paper className={sharedStyles.panel} withBorder>
           {!isValidEventTypeId ? (
-            <Alert color="red" radius="sm" variant="light">
+            <Alert color="red" data-testid="event-id-error" radius="sm" variant="light">
               Event id must be a positive number.
             </Alert>
           ) : eventTypeQuery.isLoading ? (
@@ -132,6 +133,7 @@ export function OwnerEventTypeEditPage({
                 defaultValues={eventTypeFormDefaults}
                 isSubmitting={updateEventTypeMutation.isPending}
                 onSubmit={(values) => updateEventTypeMutation.mutate(values)}
+                submitTestId="save-event-button"
                 submitLabel="Save changes"
               />
             </>

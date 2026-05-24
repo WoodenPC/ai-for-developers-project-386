@@ -6,7 +6,12 @@ import styles from "./booking-row.module.css";
 
 export function BookingRow({ booking }: { booking: Booking }) {
   return (
-    <Paper className={styles.bookingRow} withBorder>
+    <Paper
+      className={styles.bookingRow}
+      data-booking-id={booking.id}
+      data-testid="owner-booking-row"
+      withBorder
+    >
       <Box className={styles.bookingRowContent}>
         <Group gap="xs">
           <Text fw={700}>{booking.guestName}</Text>

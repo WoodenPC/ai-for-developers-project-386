@@ -34,9 +34,17 @@ export function GuestEventsPage() {
                   Guest booking
                 </Text>
                 <Title order={1}>{ownerQuery.data?.name}</Title>
-                <Text c="dimmed">{ownerQuery.data?.email}</Text>
+                <Text c="dimmed" data-testid="guest-owner-email">
+                  {ownerQuery.data?.email}
+                </Text>
               </Box>
-              <Button component="a" href="/owner/event-types" radius="sm" variant="light">
+              <Button
+                component="a"
+                data-testid="owner-events-link"
+                href="/owner/event-types"
+                radius="sm"
+                variant="light"
+              >
                 Owner events
               </Button>
             </Group>

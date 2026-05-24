@@ -19,26 +19,26 @@ export class GuestBookingPage {
   }
 
   async selectFirstAvailableSlot() {
-    await this.page
-      .getByRole("button", { name: /\d{1,2}:\d{2}\s[AP]M - \d{1,2}:\d{2}\s[AP]M/ })
-      .filter({ hasNotText: /Past|Taken/ })
-      .first()
-      .click();
+    await this.page.locator('[data-testid="booking-slot-option"][data-slot-state="available"]').first().click();
   }
 
   async fillGuestName(name: string) {
-    await this.page.getByLabel("Your name").fill(name);
+    await this.page.getByTestId("guest-name-input").fill(name);
   }
 
   async confirmBooking() {
-    await this.page.getByRole("button", { name: "Confirm booking" }).click();
+    await this.page.getByTestId("confirm-booking-button").click();
   }
 
   confirmationMessage() {
-    return this.page.getByText(/Confirmed for/);
+    return this.page.getByTestId("booking-confirmation");
+  }
+
+  eventTypeSummary() {
+    return this.page.getByTestId("booking-event-type-summary");
   }
 
   eventIdError() {
-    return this.page.getByText("Event id must be a positive number.");
+    return this.page.getByTestId("event-id-error");
   }
 }

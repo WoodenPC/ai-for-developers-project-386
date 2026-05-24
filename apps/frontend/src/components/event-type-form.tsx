@@ -24,12 +24,14 @@ export function EventTypeForm({
   onCancel,
   onSubmit,
   submitLabel,
+  submitTestId,
 }: {
   defaultValues: EventTypeFormValues;
   isSubmitting: boolean;
   onCancel?: () => void;
   onSubmit: (values: EventTypeFormValues) => void;
   submitLabel: string;
+  submitTestId?: string;
 }) {
   const {
     control,
@@ -86,11 +88,24 @@ export function EventTypeForm({
         />
         <Group justify="flex-end">
           {onCancel ? (
-            <Button disabled={isSubmitting} onClick={onCancel} radius="sm" type="button" variant="subtle">
+            <Button
+              data-testid="cancel-event-button"
+              disabled={isSubmitting}
+              onClick={onCancel}
+              radius="sm"
+              type="button"
+              variant="subtle"
+            >
               Cancel
             </Button>
           ) : null}
-          <Button disabled={!isValid || isSubmitting} loading={isSubmitting} radius="sm" type="submit">
+          <Button
+            data-testid={submitTestId}
+            disabled={!isValid || isSubmitting}
+            loading={isSubmitting}
+            radius="sm"
+            type="submit"
+          >
             {submitLabel}
           </Button>
         </Group>

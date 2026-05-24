@@ -1,10 +1,12 @@
 import { expect, test } from "@playwright/test";
 
+import { GuestBookingPage } from "../pages/guest-booking-page";
 import { GuestEventTypesPage } from "../pages/guest-event-types-page";
 import { seedEventTypes, seedOwner } from "../support/test-data";
 
 test("guest discovers event types and opens booking page", async ({ page }) => {
   const guestEventTypesPage = new GuestEventTypesPage(page);
+  const guestBookingPage = new GuestBookingPage(page);
 
   await guestEventTypesPage.goto();
 
@@ -18,6 +20,6 @@ test("guest discovers event types and opens booking page", async ({ page }) => {
 
   await expect(page).toHaveURL(new RegExp(`/event-types/${seedEventTypes.introCall.id}$`));
   await expect(page.getByRole("heading", { name: "Book a call" })).toBeVisible();
-  await expect(page.getByText(seedEventTypes.introCall.description)).toBeVisible();
-  await expect(page.getByText(`${seedEventTypes.introCall.durationMinutes} min`)).toBeVisible();
+  await expect(guestBookingPage.eventTypeSummary()).toContainText(seedEventTypes.introCall.description);
+  await expect(guestBookingPage.eventTypeSummary()).toContainText(`${seedEventTypes.introCall.durationMinutes} min`);
 });

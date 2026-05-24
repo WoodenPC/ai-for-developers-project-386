@@ -19,8 +19,8 @@ test("owner creates event type and guests can see it", async ({ page }) => {
 
   const createdRow = ownerEventTypesPage.eventTypeRow(title);
   await expect(createdRow).toBeVisible();
-  await expect(createdRow.getByText(description)).toBeVisible();
-  await expect(createdRow.getByText("25 min")).toBeVisible();
+  await expect(createdRow).toContainText(description);
+  await expect(createdRow).toContainText("25 min");
 
   await guestEventTypesPage.goto();
 
@@ -49,8 +49,8 @@ test("owner edits event type", async ({ page }) => {
   const editedRow = ownerEventTypesPage.eventTypeRow(editedTitle);
   await expect(page).toHaveURL(/\/owner\/event-types\/?$/);
   await expect(editedRow).toBeVisible();
-  await expect(editedRow.getByText(editedDescription)).toBeVisible();
-  await expect(editedRow.getByText("50 min")).toBeVisible();
+  await expect(editedRow).toContainText(editedDescription);
+  await expect(editedRow).toContainText("50 min");
 });
 
 test("owner event type validation and invalid route are visible", async ({ page }) => {

@@ -23,3 +23,9 @@ This workspace contains the client application for the calls calendar.
 - Do not select a state library until that decision is explicitly made.
 - Keep UI code, client-side state, and frontend tests inside this workspace.
 - Do not add dependencies until package choices are explicitly approved.
+- Keep e2e selectors in page objects and prefer stable, intention-revealing locators.
+- All CTA elements must have a stable `data-testid`.
+- Use `getByRole` and `getByLabel` for user-facing controls only when the accessible name is intentionally stable.
+- Use `data-testid` with semantic `aria-*` and `data-*` attributes for dynamic, repeated, formatted, localized, status-dependent, or CTA elements.
+- Do not use XPath or regex over formatted UI text for e2e selectors.
+- Keep `data-testid` values kebab-case and domain-specific.

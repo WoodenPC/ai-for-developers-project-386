@@ -51,7 +51,7 @@ export function OwnerEventTypesPage() {
               <Title order={1}>Event types</Title>
               <Text c="dimmed">{ownerQuery.data?.email ?? ownerQuery.data?.name}</Text>
             </Box>
-            <Button onClick={() => setCreateModalOpen(true)} radius="sm">
+            <Button data-testid="new-event-button" onClick={() => setCreateModalOpen(true)} radius="sm">
               New event
             </Button>
           </Group>
@@ -108,6 +108,7 @@ export function OwnerEventTypesPage() {
           isSubmitting={createEventTypeMutation.isPending}
           onCancel={() => setCreateModalOpen(false)}
           onSubmit={(values) => createEventTypeMutation.mutate(values)}
+          submitTestId="create-event-button"
           submitLabel="Create event"
         />
       </Modal>

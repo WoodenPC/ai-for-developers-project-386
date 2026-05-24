@@ -27,6 +27,7 @@ function OwnerLayout() {
             <Link
               className={styles.ownerSidebarLink}
               data-active={pathname.startsWith("/owner/bookings")}
+              data-testid="owner-bookings-nav-link"
               to="/owner/bookings"
             >
               Bookings
@@ -34,13 +35,14 @@ function OwnerLayout() {
             <Link
               className={styles.ownerSidebarLink}
               data-active={pathname.startsWith("/owner/event-types")}
+              data-testid="owner-event-types-nav-link"
               to="/owner/event-types"
             >
               Event types
             </Link>
           </nav>
 
-          <Link className={styles.ownerSidebarSecondaryLink} to="/">
+          <Link className={styles.ownerSidebarSecondaryLink} data-testid="guest-view-link" to="/">
             Guest view
           </Link>
         </aside>
@@ -68,7 +70,7 @@ function OwnerHome() {
         </Paper>
 
         <Box className={styles.ownerHomeGrid}>
-          <Link className={styles.ownerHomeCard} to="/owner/bookings">
+          <Link className={styles.ownerHomeCard} data-testid="owner-bookings-card-link" to="/owner/bookings">
             <Group justify="space-between" wrap="nowrap">
               <Box>
                 <Text fw={700}>Bookings</Text>
@@ -82,7 +84,7 @@ function OwnerHome() {
             </Group>
           </Link>
 
-          <Link className={styles.ownerHomeCard} to="/owner/event-types">
+          <Link className={styles.ownerHomeCard} data-testid="owner-event-types-card-link" to="/owner/event-types">
             <Group justify="space-between" wrap="nowrap">
               <Box>
                 <Text fw={700}>Event types</Text>

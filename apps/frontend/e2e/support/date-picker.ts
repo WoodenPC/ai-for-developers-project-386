@@ -11,14 +11,7 @@ export function localDateString(daysFromToday: number) {
   return `${year}-${month}-${day}`;
 }
 
-function calendarButtonName(dateString: string) {
-  const [year, month, day] = dateString.split("-").map(Number);
-  const monthName = new Intl.DateTimeFormat("en", { month: "long" }).format(new Date(year, month - 1, day));
-
-  return `${day} ${monthName} ${year}`;
-}
-
 export async function selectFutureDate(page: Page, daysFromToday: number) {
   const dateString = localDateString(daysFromToday);
-  await page.getByRole("button", { name: calendarButtonName(dateString) }).click();
+  await page.locator(`[data-testid="booking-calendar-day"][data-date="${dateString}"]`).click();
 }

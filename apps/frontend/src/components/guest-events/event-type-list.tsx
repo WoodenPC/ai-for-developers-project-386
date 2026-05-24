@@ -10,6 +10,8 @@ export function EventTypeList({ eventTypes }: { eventTypes: EventType[] }) {
       {eventTypes.map((eventType) => (
         <Link
           className={styles.eventTypeButton}
+          data-event-type-id={eventType.id}
+          data-testid="guest-event-type-link"
           key={eventType.id}
           params={{ eventTypeId: String(eventType.id) }}
           to="/event-types/$eventTypeId"

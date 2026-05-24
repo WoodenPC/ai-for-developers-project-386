@@ -20,5 +20,5 @@ test("owner sees a booking created by a guest", async ({ page }) => {
 
   const bookingRow = ownerBookingsPage.bookingRow(guestName);
   await expect(bookingRow).toBeVisible();
-  await expect(bookingRow.getByText(seedEventTypes.introCall.title)).toBeVisible();
+  await expect(bookingRow).toContainText(seedEventTypes.introCall.title);
 });
