@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { calendarClient } from "../../api/calendar-client";
 import { calendarQueryKeys } from "../../api/query-keys";
+import sharedStyles from "../shared/layout.module.css";
 import { EventTypeList } from "./event-type-list";
 
 export function GuestEventsPage() {
@@ -16,17 +17,17 @@ export function GuestEventsPage() {
 
   if (ownerQuery.isLoading || eventTypesQuery.isLoading) {
     return (
-      <main className="loadingScreen">
+      <main className={sharedStyles.loadingScreen}>
         <Loader color="teal" />
       </main>
     );
   }
 
   return (
-    <main className="appShell">
+    <main className={sharedStyles.appShell}>
       <Container size="xl" py="xl">
         <Stack gap="lg">
-          <Paper className="topBar" withBorder>
+          <Paper className={sharedStyles.topBar} withBorder>
             <Group justify="space-between" gap="md">
               <Box>
                 <Text c="dimmed" size="sm">
@@ -41,7 +42,7 @@ export function GuestEventsPage() {
             </Group>
           </Paper>
 
-          <Paper className="panel" withBorder>
+          <Paper className={sharedStyles.panel} withBorder>
             <Stack gap="md">
               <Box>
                 <Title order={2}>Choose call type</Title>
@@ -50,11 +51,11 @@ export function GuestEventsPage() {
                 </Text>
               </Box>
               {eventTypesQuery.isError ? (
-                <Paper className="emptyState" withBorder>
+                <Paper className={sharedStyles.emptyState} withBorder>
                   <Text c="dimmed">Failed to load event types.</Text>
                 </Paper>
               ) : eventTypes.length === 0 ? (
-                <Paper className="emptyState" withBorder>
+                <Paper className={sharedStyles.emptyState} withBorder>
                   <Text c="dimmed">No event types available.</Text>
                 </Paper>
               ) : (

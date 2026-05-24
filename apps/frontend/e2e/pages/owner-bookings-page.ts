@@ -9,6 +9,6 @@ export class OwnerBookingsPage {
   }
 
   bookingRow(guestName: string) {
-    return this.page.locator(".bookingRow").filter({ hasText: guestName });
+    return this.page.getByText(guestName, { exact: true }).locator("xpath=ancestor::*[contains(., 'Event #')][1]");
   }
 }

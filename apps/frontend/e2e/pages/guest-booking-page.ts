@@ -19,7 +19,11 @@ export class GuestBookingPage {
   }
 
   async selectFirstAvailableSlot() {
-    await this.page.locator(".timeSlotButton:not([disabled])").first().click();
+    await this.page
+      .getByRole("button", { name: /\d{1,2}:\d{2}\s[AP]M - \d{1,2}:\d{2}\s[AP]M/ })
+      .filter({ hasNotText: /Past|Taken/ })
+      .first()
+      .click();
   }
 
   async fillGuestName(name: string) {

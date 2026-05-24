@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { calendarClient } from "../../api/calendar-client";
 import { calendarQueryKeys } from "../../api/query-keys";
+import sharedStyles from "../shared/layout.module.css";
 import { BookingRow } from "./booking-row";
 
 export function OwnerBookingsPage() {
@@ -15,7 +16,7 @@ export function OwnerBookingsPage() {
   return (
     <Container size="lg" py="xl">
       <Stack gap="lg">
-        <Paper className="topBar" withBorder>
+        <Paper className={sharedStyles.topBar} withBorder>
           <Group justify="space-between" gap="md">
             <Box>
               <Text c="dimmed" size="sm">
@@ -27,7 +28,7 @@ export function OwnerBookingsPage() {
           </Group>
         </Paper>
 
-        <Paper className="panel" withBorder>
+        <Paper className={sharedStyles.panel} withBorder>
           <Group align="flex-start" justify="space-between">
             <Box>
               <Title order={2}>Upcoming bookings</Title>
@@ -48,7 +49,7 @@ export function OwnerBookingsPage() {
               Failed to load bookings.
             </Alert>
           ) : bookingsQuery.data?.length === 0 ? (
-            <Paper className="emptyState" withBorder>
+            <Paper className={sharedStyles.emptyState} withBorder>
               <Text c="dimmed">No upcoming bookings.</Text>
             </Paper>
           ) : (

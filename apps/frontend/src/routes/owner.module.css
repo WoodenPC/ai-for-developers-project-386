@@ -1,0 +1,130 @@
+.ownerLayout {
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.ownerSidebar {
+  background: #fbfcfa;
+  border-right: 1px solid #d7ded8;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 18px;
+}
+
+.ownerSidebarHeader {
+  padding: 0 8px;
+}
+
+.ownerSidebarNav {
+  display: grid;
+  gap: 8px;
+}
+
+.ownerSidebarLink,
+.ownerSidebarSecondaryLink {
+  border-radius: 8px;
+  color: #17201d;
+  display: block;
+  font-weight: 700;
+  padding: 11px 12px;
+  text-decoration: none;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.ownerSidebarLink:hover,
+.ownerSidebarLink[data-active="true"] {
+  background: #e7f0ed;
+  color: #155f57;
+}
+
+.ownerSidebarSecondaryLink {
+  color: #5f6d68;
+  font-weight: 600;
+  margin-top: auto;
+}
+
+.ownerSidebarSecondaryLink:hover {
+  background: #eef2ef;
+  color: #17201d;
+}
+
+.ownerContent {
+  min-width: 0;
+}
+
+.ownerHomeGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ownerHomeCard {
+  background: #ffffff;
+  border: 1px solid #dfe5e1;
+  border-radius: 8px;
+  color: inherit;
+  display: block;
+  padding: 18px;
+  text-decoration: none;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    transform 140ms ease;
+}
+
+.ownerHomeCard:hover {
+  background: #fbfdfc;
+  border-color: #1d7f73;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 860px) {
+  .ownerLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .ownerSidebar {
+    border-bottom: 1px solid #d7ded8;
+    border-right: 0;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 16px;
+  }
+
+  .ownerSidebarHeader {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+    padding: 0;
+  }
+
+  .ownerSidebarHeader h2 {
+    font-size: 24px;
+    line-height: 1.1;
+  }
+
+  .ownerSidebarNav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ownerSidebarSecondaryLink {
+    align-self: start;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    margin-top: 0;
+    padding: 9px 11px;
+    white-space: nowrap;
+  }
+
+  .ownerHomeGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,32 @@
+.eventTypeButton {
+  background: #ffffff;
+  border: 1px solid #dde3df;
+  border-radius: 8px;
+  color: inherit;
+  cursor: pointer;
+  display: block;
+  padding: 16px;
+  text-align: left;
+  text-decoration: none;
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    transform 140ms ease;
+  width: 100%;
+}
+
+.eventTypeButton:hover,
+.eventTypeButton[data-active="true"] {
+  background: #fbfdfc;
+  border-color: #1d7f73;
+  box-shadow: 0 8px 18px rgba(29, 127, 115, 0.08);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .eventTypeButtonContent {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+}

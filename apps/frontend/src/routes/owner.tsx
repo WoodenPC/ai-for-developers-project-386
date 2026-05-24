@@ -1,5 +1,8 @@
-import { Box, Text, Title } from "@mantine/core";
+import { Box, Container, Group, Paper, Stack, Text, Title } from "@mantine/core";
 import { Link, Outlet, createFileRoute, useRouterState } from "@tanstack/react-router";
+
+import sharedStyles from "../components/shared/layout.module.css";
+import styles from "./owner.module.css";
 
 export const Route = createFileRoute("/owner")({
   component: OwnerLayout,
@@ -7,28 +10,29 @@ export const Route = createFileRoute("/owner")({
 
 function OwnerLayout() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const isOwnerIndex = pathname === "/owner" || pathname === "/owner/";
 
   return (
-    <main className="appShell">
-      <Box className="ownerLayout">
-        <aside className="ownerSidebar">
-          <Box className="ownerSidebarHeader">
+    <main className={sharedStyles.appShell}>
+      <Box className={styles.ownerLayout}>
+        <aside className={styles.ownerSidebar}>
+          <Box className={styles.ownerSidebarHeader}>
             <Text c="dimmed" size="sm">
               Owner workspace
             </Text>
             <Title order={2}>Calendar</Title>
           </Box>
 
-          <nav className="ownerSidebarNav" aria-label="Owner navigation">
+          <nav className={styles.ownerSidebarNav} aria-label="Owner navigation">
             <Link
-              className="ownerSidebarLink"
+              className={styles.ownerSidebarLink}
               data-active={pathname.startsWith("/owner/bookings")}
               to="/owner/bookings"
             >
               Bookings
             </Link>
             <Link
-              className="ownerSidebarLink"
+              className={styles.ownerSidebarLink}
               data-active={pathname.startsWith("/owner/event-types")}
               to="/owner/event-types"
             >
@@ -36,15 +40,63 @@ function OwnerLayout() {
             </Link>
           </nav>
 
-          <Link className="ownerSidebarSecondaryLink" to="/">
+          <Link className={styles.ownerSidebarSecondaryLink} to="/">
             Guest view
           </Link>
         </aside>
 
-        <Box className="ownerContent">
-          <Outlet />
+        <Box className={styles.ownerContent}>
+          {isOwnerIndex ? <OwnerHome /> : <Outlet />}
         </Box>
       </Box>
     </main>
+  );
+}
+
+function OwnerHome() {
+  return (
+    <Container size="lg" py="xl">
+      <Stack gap="lg">
+        <Paper className={sharedStyles.topBar} withBorder>
+          <Box>
+            <Text c="dimmed" size="sm">
+              Owner workspace
+            </Text>
+            <Title order={1}>Workspace</Title>
+            <Text c="dimmed">Choose a calendar area to manage.</Text>
+          </Box>
+        </Paper>
+
+        <Box className={styles.ownerHomeGrid}>
+          <Link className={styles.ownerHomeCard} to="/owner/bookings">
+            <Group justify="space-between" wrap="nowrap">
+              <Box>
+                <Text fw={700}>Bookings</Text>
+                <Text c="dimmed" size="sm">
+                  Review upcoming guest calls.
+                </Text>
+              </Box>
+              <Text c="teal" fw={700}>
+                Open
+              </Text>
+            </Group>
+          </Link>
+
+          <Link className={styles.ownerHomeCard} to="/owner/event-types">
+            <Group justify="space-between" wrap="nowrap">
+              <Box>
+                <Text fw={700}>Event types</Text>
+                <Text c="dimmed" size="sm">
+                  Manage public booking options.
+                </Text>
+              </Box>
+              <Text c="teal" fw={700}>
+                Open
+              </Text>
+            </Group>
+          </Link>
+        </Box>
+      </Stack>
+    </Container>
   );
 }

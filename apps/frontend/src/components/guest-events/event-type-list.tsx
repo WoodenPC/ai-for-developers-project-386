@@ -2,17 +2,19 @@ import { Badge, Box, Group, Stack, Text } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
 import type { EventType } from "@calls-calendar/api-dto/generated";
 
+import styles from "./event-type-list.module.css";
+
 export function EventTypeList({ eventTypes }: { eventTypes: EventType[] }) {
   return (
     <Stack gap="sm">
       {eventTypes.map((eventType) => (
         <Link
-          className="eventTypeButton"
+          className={styles.eventTypeButton}
           key={eventType.id}
           params={{ eventTypeId: String(eventType.id) }}
           to="/event-types/$eventTypeId"
         >
-          <Group justify="space-between" wrap="nowrap">
+          <Group className={styles.eventTypeButtonContent} justify="space-between" wrap="nowrap">
             <Box>
               <Text fw={700}>{eventType.title}</Text>
               <Text c="dimmed" size="sm">

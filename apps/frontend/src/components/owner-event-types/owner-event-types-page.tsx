@@ -19,6 +19,7 @@ import { useState } from "react";
 import { calendarClient } from "../../api/calendar-client";
 import { calendarQueryKeys } from "../../api/query-keys";
 import { EventTypeForm, emptyEventTypeFormValues } from "../event-type-form";
+import sharedStyles from "../shared/layout.module.css";
 import { EventTypeRow } from "./event-type-row";
 
 export function OwnerEventTypesPage() {
@@ -41,7 +42,7 @@ export function OwnerEventTypesPage() {
   return (
     <Container size="lg" py="xl">
       <Stack gap="lg">
-        <Paper className="topBar" withBorder>
+        <Paper className={sharedStyles.topBar} withBorder>
           <Group justify="space-between" gap="md">
             <Box>
               <Text c="dimmed" size="sm">
@@ -56,7 +57,7 @@ export function OwnerEventTypesPage() {
           </Group>
         </Paper>
 
-        <Paper className="panel" withBorder>
+        <Paper className={sharedStyles.panel} withBorder>
           <Group align="flex-start" justify="space-between">
             <Box>
               <Title order={2}>Managed events</Title>
@@ -77,7 +78,7 @@ export function OwnerEventTypesPage() {
               Failed to load event types.
             </Alert>
           ) : eventTypesQuery.data?.length === 0 ? (
-            <Paper className="emptyState" withBorder>
+            <Paper className={sharedStyles.emptyState} withBorder>
               <Text c="dimmed">No event types yet.</Text>
             </Paper>
           ) : (

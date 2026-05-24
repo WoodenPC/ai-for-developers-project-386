@@ -19,7 +19,7 @@ export class OwnerEventTypesPage {
   }
 
   eventTypeRow(title: string) {
-    return this.page.locator(".eventTypeRow").filter({ hasText: title });
+    return this.page.getByText(title, { exact: true }).locator("xpath=ancestor::*[.//button[normalize-space()='Edit']][1]");
   }
 
   createButton() {

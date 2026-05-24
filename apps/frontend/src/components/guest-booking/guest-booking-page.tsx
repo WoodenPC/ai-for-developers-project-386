@@ -24,9 +24,11 @@ import { z } from "zod";
 
 import { CalendarApiError, calendarClient } from "../../api/calendar-client";
 import { calendarQueryKeys } from "../../api/query-keys";
+import sharedStyles from "../shared/layout.module.css";
 import { SlotSkeletonList } from "./slot-skeleton-list";
 import { formatDate, formatTime, normalizeDateValue, toDateString, todayDateString } from "./date-utils";
 import { isPastSlot } from "./slot-utils";
+import styles from "./guest-booking-page.module.css";
 
 const bookingFormSchema = z.object({
   guestName: z.string().trim().min(1, "Name is required."),
@@ -114,10 +116,10 @@ export function GuestBookingPage({
       : "Failed to create booking.";
 
   return (
-    <main className="appShell">
+    <main className={sharedStyles.appShell}>
       <Container size="xl" py="xl">
         <Stack gap="lg">
-          <Paper className="topBar" withBorder>
+          <Paper className={sharedStyles.topBar} withBorder>
             <Group justify="space-between" gap="md">
               <Box>
                 <Text c="dimmed" size="sm">
@@ -137,7 +139,7 @@ export function GuestBookingPage({
               Event id must be a positive number.
             </Alert>
           ) : eventTypeQuery.isLoading || ownerQuery.isLoading ? (
-            <Paper className="panel" withBorder>
+            <Paper className={sharedStyles.panel} withBorder>
               <Loader color="teal" size="sm" />
             </Paper>
           ) : eventTypeQuery.isError ? (
@@ -146,11 +148,11 @@ export function GuestBookingPage({
             </Alert>
           ) : (
             <Box
-              className="bookingGrid"
+              className={styles.bookingGrid}
               component="form"
               onSubmit={handleSubmit((values) => createBookingMutation.mutate(values))}
             >
-              <Paper className="panel bookingSidePanel" withBorder>
+              <Paper className={`${sharedStyles.panel} ${styles.bookingSidePanel}`} withBorder>
                 <Stack gap="md">
                   <Box>
                     <Text c="dimmed" size="sm">
@@ -184,7 +186,7 @@ export function GuestBookingPage({
                 </Stack>
               </Paper>
 
-              <Paper className="panel bookingCalendarPanel" withBorder>
+              <Paper className={`${sharedStyles.panel} ${styles.bookingCalendarPanel}`} withBorder>
                 <Stack gap="md">
                   <Box>
                     <Title order={2}>Select date</Title>
@@ -207,7 +209,7 @@ export function GuestBookingPage({
                 </Stack>
               </Paper>
 
-              <Paper className="panel bookingTimePanel" withBorder>
+              <Paper className={`${sharedStyles.panel} ${styles.bookingTimePanel}`} withBorder>
                 <Stack gap="md">
                   <Box>
                     <Title order={2}>Select time</Title>
@@ -223,7 +225,7 @@ export function GuestBookingPage({
                       Failed to load times.
                     </Alert>
                   ) : visibleSlots.length === 0 ? (
-                    <Paper className="emptyState" withBorder>
+                    <Paper className={sharedStyles.emptyState} withBorder>
                       <Text c="dimmed">No times available for this date.</Text>
                     </Paper>
                   ) : (
@@ -234,7 +236,7 @@ export function GuestBookingPage({
 
                         return (
                           <Button
-                            className="timeSlotButton"
+                            className={styles.timeSlotButton}
                             disabled={disabled}
                             fullWidth
                             key={`${slot.eventTypeId}-${slot.startAt}`}

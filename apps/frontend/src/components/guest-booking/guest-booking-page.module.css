@@ -1,0 +1,32 @@
+.bookingGrid {
+  align-items: start;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(230px, 3fr) minmax(380px, 5fr) minmax(240px, 3fr);
+}
+
+.bookingSidePanel,
+.bookingCalendarPanel,
+.bookingTimePanel {
+  min-width: 0;
+}
+
+.timeSlotButton {
+  height: auto;
+  min-height: 52px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+@media (min-width: 861px) {
+  .bookingTimePanel {
+    position: sticky;
+    top: 24px;
+  }
+}
+
+@media (max-width: 860px) {
+  .bookingGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,39 @@
+.bookingRow {
+  align-items: center;
+  background: #ffffff;
+  border-color: #e2e7e3;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 15px;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease;
+}
+
+.bookingRow:hover {
+  background: #fbfdfc;
+  border-color: #cad8d2;
+}
+
+.bookingRowContent {
+  min-width: 0;
+}
+
+.bookingRowMeta {
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .bookingRow {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .bookingRowMeta {
+    margin-left: 0;
+    width: 100%;
+  }
+}

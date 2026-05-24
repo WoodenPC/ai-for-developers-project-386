@@ -21,6 +21,7 @@ import { useMemo } from "react";
 import { calendarClient } from "../../api/calendar-client";
 import { calendarQueryKeys } from "../../api/query-keys";
 import { EventTypeForm, emptyEventTypeFormValues, type EventTypeFormValues } from "../event-type-form";
+import sharedStyles from "../shared/layout.module.css";
 
 export function OwnerEventTypeEditPage({
   eventTypeId,
@@ -61,7 +62,7 @@ export function OwnerEventTypeEditPage({
   return (
     <Container size="md" py="xl">
       <Stack gap="lg">
-        <Paper className="topBar" withBorder>
+        <Paper className={sharedStyles.topBar} withBorder>
           <Stack gap="md">
             <Group gap="sm">
               <ActionIcon
@@ -97,7 +98,7 @@ export function OwnerEventTypeEditPage({
           </Stack>
         </Paper>
 
-        <Paper className="panel" withBorder>
+        <Paper className={sharedStyles.panel} withBorder>
           {!isValidEventTypeId ? (
             <Alert color="red" radius="sm" variant="light">
               Event id must be a positive number.

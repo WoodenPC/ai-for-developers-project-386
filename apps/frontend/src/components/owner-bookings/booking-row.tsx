@@ -2,11 +2,12 @@ import { Badge, Box, Group, Paper, Text } from "@mantine/core";
 import type { Booking } from "@calls-calendar/api-dto/generated";
 
 import { formatBookingDate, formatBookingTime } from "./date-formatters";
+import styles from "./booking-row.module.css";
 
 export function BookingRow({ booking }: { booking: Booking }) {
   return (
-    <Paper className="bookingRow" withBorder>
-      <Box>
+    <Paper className={styles.bookingRow} withBorder>
+      <Box className={styles.bookingRowContent}>
         <Group gap="xs">
           <Text fw={700}>{booking.guestName}</Text>
           <Badge color="gray" variant="light">
@@ -18,8 +19,8 @@ export function BookingRow({ booking }: { booking: Booking }) {
           {formatBookingTime(booking.endAt)}
         </Text>
       </Box>
-      <Badge color="teal" variant="light">
-        #{booking.eventTypeId}
+      <Badge className={styles.bookingRowMeta} color="gray" variant="light">
+        Event #{booking.eventTypeId}
       </Badge>
     </Paper>
   );
