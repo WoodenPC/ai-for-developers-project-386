@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: calls-calendar-backend
+    runtime: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: infrastructure/dockerfiles/Dockerfile.backend
+    healthCheckPath: /event-types
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+
+  - type: web
+    name: calls-calendar-frontend
+    runtime: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: infrastructure/dockerfiles/Dockerfile.frontend
+    healthCheckPath: /
+    envVars:
+      - key: BACKEND_HOSTPORT
+        fromService:
+          type: web
+          name: calls-calendar-backend
+          property: hostport
