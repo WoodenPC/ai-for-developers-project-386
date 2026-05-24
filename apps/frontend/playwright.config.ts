@@ -18,7 +18,8 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: "pnpm --filter @calls-calendar/backend start",
+      command:
+        "pnpm --filter @calls-calendar/backend generate:contract-schemas && pnpm --filter @calls-calendar/backend dev",
       cwd: "../..",
       reuseExistingServer: false,
       timeout: 120_000,
